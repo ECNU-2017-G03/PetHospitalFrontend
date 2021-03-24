@@ -1,21 +1,35 @@
 <template>
   <div class="header">
-    <span>Pet Hospital</span>
+    <div class="title" @click="toMainPage">Pet Hospital</div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Header'
+    name: 'Header',
+    methods: {
+      toMainPage: function () {
+        this.$router.push('/')
+      }
+    }
   }
 </script>
 
 <style scoped>
-.header {
-  background-color: #333;
-  color: #aaa;
-  height: 50px;
-  padding: 5px;
-  text-align: center;
-}
+  .header {
+    background-color: #66a6ff;
+    color: white;
+    height: 50px;
+    padding: 5px;
+    text-align: center;
+  }
+
+  .title {
+    line-height: 50px;
+    font-size: x-large;
+  }
+
+  .title:hover {
+    cursor: pointer;
+  }
 </style>

@@ -11,11 +11,11 @@
 </script>
 
 <style scoped>
-.el-footer {
-  background-color: #333;
-  color: #bfbfbf;
-  text-align: center;
-  line-height: 60px;
-  font-size: 14px;
-}
+  .el-footer {
+    background-color: #333;
+    color: #bfbfbf;
+    text-align: center;
+    line-height: 60px;
+    font-size: 14px;
+  }
 </style>
