@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header/>
-    <div class="page-body">
+    <div class="app-body">
       <router-view/>
     </div>
     <Footer/>
@@ -32,12 +32,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
-  /*text-align: center;*/
-  /*color: #2c3e50;*/
-  /*margin-top: 60px;*/
 }
 
-.page-body {
+.app-body {
   min-height: calc(100vh - 120px);
+  padding-top: 60px;
+  width: 100%;
+  background-color: #eaeaea;
 }
 </style>

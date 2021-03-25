@@ -20,8 +20,11 @@
     background-color: #66a6ff;
     color: white;
     height: 50px;
-    padding: 5px;
+    width: 100%;
+    padding: 5px 0;
     text-align: center;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 7px 10px 0 rgb(0 0 0 / 12%);
+    position: absolute;
   }
 
   .title {

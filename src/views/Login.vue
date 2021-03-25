@@ -20,6 +20,8 @@
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
+
   export default {
     name: 'Login',
     data() {
@@ -55,14 +57,26 @@
         }
       }
     },
+    created() {
+      if (this.$route.query.redirect) {
+        this.$message.error('请登录后进行学习')
+      }
+    },
     methods: {
+      ...mapMutations(['saveToken']),
       login: function() {
         this.LoggingIn = true
         this.$refs['loginForm'].validate((valid) => {
           if (valid) {
-            this.$axios.post('/api/user/login', this.loginForm)
+            this.axios.post('/api/user/login', this.loginForm)
               .then(res => {
                 console.log(res)
+                const data = res.data
+                this.saveToken(data.token)
+              })
+              .catch(err => {
+                console.log(err)
+                this.$message.error('登录失败')
               })
               .finally(() => {
                 this.LoggingIn = false
@@ -73,7 +87,7 @@
         })
       },
       register: function() {
-        
+        this.$router.push('/register')
       }
     }
   }
@@ -81,15 +95,14 @@
 
 <style scoped>
   .page-body {
-    padding: 0 10px;
+    height: 100%;
     text-align: center;
-    background-color: #eaeaea;
   }
 
   .login-form {
     background-color: white;
     display: inline-block;
-    margin-top: 50px;
+    margin-top: 15vh;
     width: 400px;
     padding: 20px 40px;
     border-radius: 5px;
