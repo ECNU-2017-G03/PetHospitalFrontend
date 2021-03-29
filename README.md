@@ -1,4 +1,20 @@
-# frontend
+# Pet Hospital Client-Side Frontend
+
+## Features
+
+Includes learning, testing, and hospital tour.
+
+### Learning
+
+Learn and recite job-related information.
+
+### Testing
+
+Test your knowledge.
+
+### Hospital Tour
+
+3-D map for hospital.
 
 ## Project setup
 ```
