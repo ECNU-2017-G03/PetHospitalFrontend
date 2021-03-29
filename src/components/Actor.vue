@@ -21,33 +21,33 @@
 
   export default {
     name: 'Actor',
-    props: ['dialogVisible'],
+    props: [''],
     data() {
       return {
+        dialogVisible: true,
         actorName: '医生',
         chineseNameToEnglishMapping: {
           '医生': 'vet',
           '护士': 'nurse',
-          '前台': 'frontDesk',
+          '前台': 'receptionist',
         },
         englishNameToChineseMapping: {
           'vet': '医生',
           'nurse': '护士',
-          'frontDesk': '前台',
+          'receptionist': '前台',
         }
       }
     },
     created() {
       this.getActor()
-      console.log(this)
     },
     methods: {
       ...mapMutations(['saveActor']),
-      getActor() {
+      getActor: function () {
         const actor = this.$store.state.actor
         this.actorName = this.englishNameToChineseMapping[actor]
       },
-      changeActor() {
+      changeActor: function () {
         const actor = this.chineseNameToEnglishMapping[this.actorName]
         this.saveActor(actor)
         this.dialogVisible = false
