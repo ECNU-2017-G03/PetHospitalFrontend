@@ -1,16 +1,27 @@
 <template>
-  <div class="page-body">
-    <div class="card-component">
-      <div class="button-card">医院导览</div>
-      <div class="button-card">职能学习</div>
-      <div class="button-card">测试管理</div>
+  <div>
+    <div class="page-body">
+      <div class="card-component">
+        <div class="button-card">医院导览</div>
+        <div class="button-card">职能学习</div>
+        <div class="button-card">测试管理</div>
+      </div>
     </div>
+    <Actor :dialogVisible="actorVisible"></Actor>
   </div>
 </template>
 
 <script>
+  import Actor from '@/components/Actor';
+
   export default {
-    name: 'Main'
+    name: 'Main',
+    components: {Actor},
+    data() {
+      return {
+        actorVisible: true,
+      }
+    }
   }
 </script>
 

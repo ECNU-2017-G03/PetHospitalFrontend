@@ -73,6 +73,7 @@
                 console.log(res)
                 const data = res.data
                 this.saveToken(data.token)
+                this.$router.push('/main')
               })
               .catch(err => {
                 console.log(err)
