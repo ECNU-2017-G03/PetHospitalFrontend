@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: "Tour3D"
+    name: 'Tour3D'
   }
 </script>
 

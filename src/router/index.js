@@ -7,8 +7,9 @@ import Main from '@/views/Main'
 import Overview from '@/views/Overview'
 import page404 from '@/views/ErrorPage'
 import Tour3D from '@/views/Tour3D'
-import DepartmentList from "@/views/DepartmentList";
-import Department from "@/views/Department";
+import DepartmentList from '@/views/DepartmentList'
+import Department from '@/views/Department'
+import ItemDetail from '@/views/ItemDetail'
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,13 @@ const routes = [
     path: '/department/:id',
     name: 'Department',
     component: Department,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
+    path: '/items',
+    name: 'ItemDetail',
+    component: ItemDetail,
     meta: {
       requireAuth: true,
     }

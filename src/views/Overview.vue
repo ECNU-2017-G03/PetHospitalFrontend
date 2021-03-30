@@ -8,7 +8,7 @@
         <div @click="handleClick('department')">科室学习</div>
       </div>
       <div class="button-card animate__animated animate__fadeInUp">
-        <div @click="handleClick('charging')">收费明细表</div>
+        <div @click="handleClick('itemList')">收费明细表</div>
       </div>
     </div>
   </div>
@@ -23,8 +23,8 @@
           this.$router.push('/tour3d')
         } else if (name === 'department') {
           this.$router.push('/departmentList')
-        } else if (name === 'charging') {
-          // this.$router.push('/charging')
+        } else if (name === 'itemList') {
+          this.$router.push('/items')
         }
       }
     }
