@@ -10,6 +10,8 @@ import Tour3D from '@/views/Tour3D'
 import DepartmentList from '@/views/DepartmentList'
 import Department from '@/views/Department'
 import ItemDetail from '@/views/ItemDetail'
+import TestManage from "@/views/TestManage";
+import TestPage from "@/views/TestPage";
 
 Vue.use(VueRouter)
 
@@ -74,6 +76,16 @@ const routes = [
   }, {
     path: '*',
     redirect: '/404',
+  },
+  {
+    path: '/test',
+    name: 'TestManage',
+    component: TestManage,
+  },
+  {
+    path: '/testPage/:id/:testName',
+    name: 'TestPage',
+    component: TestPage
   }
 ]
 
