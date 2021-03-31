@@ -35,7 +35,7 @@
         if (name === 'overview') {
           this.$router.push('/overview')
         } else if (name === 'learning') {
-          // this.$router.push('/learning')
+          this.$router.push('/learning')
         } else if (name === 'test') {
            this.$router.push('/test')
         }
