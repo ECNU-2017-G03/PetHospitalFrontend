@@ -11,8 +11,8 @@
         </el-form-item>
       </el-form>
       <div class="card-component">
-        <el-row :gutter="0">
-          <el-col :span="1" v-for="disease in diseaseList" :key="disease.id">
+        <el-row :gutter="0" v-for="disease in diseaseList" :key="disease.id">
+          <el-col :span="1" >
             <div class="button-card" @click="clickDiseaseName(disease.id)">
               {{disease.name}}
             </div>
