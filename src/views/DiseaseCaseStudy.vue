@@ -11,8 +11,8 @@
         </el-form-item>
       </el-form>
       <div class="card-component">
-        <el-row :gutter="0">
-          <el-col :span="1" v-for="diseaseCase in diseaseCaseList" :key="diseaseCase.id">
+        <el-row :gutter="0" v-for="diseaseCase in diseaseCaseList" :key="diseaseCase.id">
+          <el-col :span="1" >
             <div class="button-card" @click="clickDiseaseCaseName(diseaseCase.id)">
               {{diseaseCase.name}}
             </div>
@@ -49,7 +49,7 @@ export default {
   },
   created() {
     if (this.$route.query.redirect) {
-      this.$message.error('请登录后进行病种查询')
+      this.$message.error('请登录后进行病例查询')
     }
     this.listDiseaseCase()
   },
