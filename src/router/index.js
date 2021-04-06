@@ -10,13 +10,14 @@ import Tour3D from '@/views/Tour3D'
 import DepartmentList from '@/views/DepartmentList'
 import Department from '@/views/Department'
 import ItemDetail from '@/views/ItemDetail'
-import TestManage from "@/views/TestManage";
-import TestPage from "@/views/TestPage";
-import Learning from "@/views/Learning";
-import DiseaseStudy from "@/views/DiseaseStudy";
-import DiseaseCaseStudy from "@/views/DiseaseCaseStudy";
-import DiseaseDetail from "@/views/DiseaseDetail";
-import DiseaseCaseDetail from "@/views/DiseaseCaseDetail";
+import TestManage from '@/views/TestManage'
+import TestPage from '@/views/TestPage'
+import Learning from '@/views/Learning'
+import DiseaseStudy from '@/views/DiseaseStudy'
+import DiseaseCaseStudy from '@/views/DiseaseCaseStudy'
+import DiseaseDetail from '@/views/DiseaseDetail'
+import DiseaseCaseDetail from '@/views/DiseaseCaseDetail'
+import UserInfo from '@/views/UserInfo'
 
 Vue.use(VueRouter)
 
@@ -107,6 +108,13 @@ const routes = [
     path: '/diseaseCaseDetail/:diseaseCaseId',
     name: 'DiseaseCaseDetail',
     component: DiseaseCaseDetail,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
+    path: '/userInfo',
+    name: 'UserInfo',
+    component: UserInfo,
     meta: {
       requireAuth: true,
     }

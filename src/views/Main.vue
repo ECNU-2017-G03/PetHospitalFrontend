@@ -1,25 +1,25 @@
 <template>
   <div>
     <div class="page-body">
-      <div class="card-component">
+      <div class="card-component animate__animated animate__fadeInUp" >
 <!--        todo: add picture here-->
-        <div class="button-card animate__animated animate__fadeInUp">
+        <div class="button-card">
          <div @click="handleClick('overview')">医院导览</div>
         </div>
-        <div class="button-card animate__animated animate__fadeInUp">
+        <div class="button-card">
           <div @click="handleClick('learning')">职能学习</div>
         </div>
-        <div class="button-card animate__animated animate__fadeInUp">
+        <div class="button-card">
           <div @click="handleClick('test')">测试管理</div>
         </div>
       </div>
     </div>
-    <Actor></Actor>
+    <Actor ref="actorDialog"></Actor>
   </div>
 </template>
 
 <script>
-  import Actor from '@/components/Actor';
+  import Actor from '@/components/Actor'
 
   export default {
     name: 'Main',
@@ -29,9 +29,11 @@
 
       }
     },
+    mounted() {
+      this.$refs.actorDialog.setDialogVisible()
+    },
     methods: {
       handleClick: function(name) {
-        console.log(name)
         if (name === 'overview') {
           this.$router.push('/overview')
         } else if (name === 'learning') {

@@ -35,8 +35,8 @@
       const checkPassword = (rule, value, callback) => {
         if (value === '' || value === null) {
           callback(new Error('密码不可为空'))
-        } else if (value.length < 6 || value.length > 20) {
-          callback(new Error('密码长度为6-20位'))
+        } else if (value.length < 6 || value.length > 16) {
+          callback(new Error('密码长度为6-16位'))
         } else {
           callback()
         }
@@ -63,7 +63,7 @@
       }
     },
     methods: {
-      ...mapMutations(['saveToken']),
+      ...mapMutations(['saveToken', 'saveUserName']),
       login: function() {
         this.LoggingIn = true
         this.$refs['loginForm'].validate((valid) => {
@@ -73,6 +73,7 @@
                 console.log(res)
                 const data = res.data
                 this.saveToken(data.token)
+                this.saveUserName(this.loginForm.name)
                 this.$router.push('/main')
               })
               .catch(err => {

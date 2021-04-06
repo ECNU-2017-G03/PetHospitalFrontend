@@ -1,6 +1,14 @@
 <template>
   <div>
-    <el-dialog title="选择角色" :visible.sync="dialogVisible" width="500px" center>
+    <el-dialog
+        title="选择角色"
+        :visible.sync="dialogVisible"
+        width="500px"
+        center
+        :close-on-press-escape="false"
+        :close-on-click-modal="false"
+        :show-close="false"
+    >
       <div class="hint">
         <el-radio-group v-model="actorName">
           <el-radio-button label="医生"></el-radio-button>
@@ -9,7 +17,6 @@
         </el-radio-group>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="changeActor">确 定</el-button>
       </span>
     </el-dialog>
@@ -21,10 +28,9 @@
 
   export default {
     name: 'Actor',
-    props: [''],
     data() {
       return {
-        dialogVisible: true,
+        dialogVisible: false,
         actorName: '医生',
         chineseNameToEnglishMapping: {
           '医生': 'vet',
@@ -51,6 +57,10 @@
         const actor = this.chineseNameToEnglishMapping[this.actorName]
         this.saveActor(actor)
         this.dialogVisible = false
+      },
+      setDialogVisible: function () {
+        this.getActor()
+        this.dialogVisible = true
       }
     }
   }

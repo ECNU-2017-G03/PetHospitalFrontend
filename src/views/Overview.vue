@@ -1,13 +1,13 @@
 <template>
   <div class="page-body">
-    <div class="card-component">
-      <div class="button-card animate__animated animate__fadeInUp">
+    <div class="card-component animate__animated animate__fadeInUp">
+      <div class="button-card">
         <div @click="handleClick('tour')">医院总览</div>
       </div>
-      <div class="button-card animate__animated animate__fadeInUp">
+      <div class="button-card">
         <div @click="handleClick('department')">科室学习</div>
       </div>
-      <div class="button-card animate__animated animate__fadeInUp">
+      <div class="button-card">
         <div @click="handleClick('itemList')">收费明细表</div>
       </div>
     </div>

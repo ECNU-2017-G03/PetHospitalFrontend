@@ -39,10 +39,7 @@
       <div class="card-outer">
         <div class="card">
           <div class="card-title">科室职能介绍</div>
-          <div>
-<!--            todo: markdown here-->
-            {{detail.description}}
-          </div>
+          <div>{{detail.description}}</div>
         </div>
       </div>
     </div>

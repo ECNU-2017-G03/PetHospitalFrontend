@@ -69,13 +69,13 @@
         registering: false,
         rules: {
           name: [
-            {validator: checkName, trigger: ['blur', 'change']}
+            { validator: checkName, trigger: ['blur', 'change'] }
           ],
           password: [
-            {validator: checkPassword, trigger: ['blur', 'change']}
+            { validator: checkPassword, trigger: ['blur', 'change'] }
           ],
           confirmPassword: [
-            {validator: validatePassword, trigger: 'blur'}
+            { validator: validatePassword, trigger: 'blur' }
           ],
         }
       }
