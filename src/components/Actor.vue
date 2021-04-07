@@ -11,9 +11,7 @@
     >
       <div class="hint">
         <el-radio-group v-model="actorName">
-          <el-radio-button label="医生"></el-radio-button>
-          <el-radio-button label="护士"></el-radio-button>
-          <el-radio-button label="前台"></el-radio-button>
+          <el-radio-button v-for="actor in actors" :key="actor" :label="actor"></el-radio-button>
         </el-radio-group>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -30,6 +28,7 @@
     name: 'Actor',
     data() {
       return {
+        actors: [],
         dialogVisible: false,
         actorName: '医生',
         chineseNameToEnglishMapping: {
@@ -48,7 +47,7 @@
       this.getActor()
     },
     methods: {
-      ...mapMutations(['saveActor']),
+      ...mapMutations(['saveActor', 'userLogout']),
       getActor: function () {
         const actor = this.$store.state.actor
         this.actorName = this.englishNameToChineseMapping[actor]
@@ -60,8 +59,27 @@
       },
       setDialogVisible: function () {
         this.getActor()
-        this.dialogVisible = true
-      }
+        this.axios
+          .get('/api/user/actors')
+          .then(res => {
+            if (res.data.actors.length === 0) {
+              this.$alert('您无任何角色权限，请联系管理员', '权限提醒', {
+                confirmButtonText: '确定',
+                callback: () => {
+                  this.userLogout()
+                  this.$router.push('/')
+                }
+              })
+              return
+            }
+            let actorList = []
+            for (let a of res.data.actors) {
+              actorList.push(this.englishNameToChineseMapping[a])
+            }
+            this.actors = actorList
+            this.dialogVisible = true
+          })
+      },
     }
   }
 </script>

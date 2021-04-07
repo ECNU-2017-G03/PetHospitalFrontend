@@ -11,8 +11,8 @@
         </el-form-item>
       </el-form>
       <div class="card-component">
-        <el-row :gutter="0" v-for="disease in diseaseList" :key="disease.id">
-          <el-col :span="1" >
+        <el-row :gutter="20">
+          <el-col :span="12" v-for="disease in diseaseList" :key="disease.id">
             <div class="button-card" @click="clickDiseaseName(disease.id)">
               {{disease.name}}
             </div>
@@ -81,19 +81,19 @@
       },
       listDisease: function() {
         this.Searching = true
-          this.axios
-            .get('api/learning/listDisease', { params: { size: 20 }})
-            .then(res => {
-              console.log(res)
-              this.diseaseList = res.data.diseaseEntityList
-            })
-            .catch(err => {
-              console.log(err)
-              this.$message.error('获取初始疾病列表失败')
-            })
-            .finally(() => {
-              this.Searching = false
-            })
+        this.axios
+          .get('api/learning/listDisease', { params: { size: 20 }})
+          .then(res => {
+            console.log(res)
+            this.diseaseList = res.data.diseaseEntityList
+          })
+          .catch(err => {
+            console.log(err)
+            this.$message.error('获取初始疾病列表失败')
+          })
+          .finally(() => {
+            this.Searching = false
+          })
       }
     }
   }
@@ -122,6 +122,10 @@
   box-shadow: 0 10px 30px rgb(50 50 93 / 3%), 0 5px 15px rgb(0 0 0 / 7%);
 }
 
+.search-button {
+  margin-left: 20px;
+}
+
 .search-bar {
   margin: auto;
   height: 100%;
@@ -135,21 +139,21 @@
 .button-card {
   background-color: white;
   display: inline-block;
-  margin: auto;
-  width: 360px;
+  margin: 10px 0;
+  width: calc(100% - 40px);
   height: 20px;
   line-height: 20px;
   padding: 20px;
   font-size: larger;
   color: #34495e;
   border-radius: 5px;
-  box-shadow: 0 10px 30px rgba(5,50,93,0.03), 0 5px 15px rgba(0,0,0,0.07);
+  box-shadow: 0 10px 30px rgba(5,50,93,0.02), 0 5px 15px rgba(0,0,0,0.05);
   transition-duration: 0.5s;
 }
 
 .button-card:hover {
   transform: translateY(-8px);
   cursor: pointer;
-  box-shadow: 0 20px 50px rgba(5,50,93,0.08), 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 20px 50px rgba(5,50,93,0.05), 0 10px 30px rgba(0,0,0,0.08);
 }
 </style>
