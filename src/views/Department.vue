@@ -9,7 +9,7 @@
           <div class="one-card-outer card-outer">
             <div class="one-card card">
               <div class="card-title">科室概述</div>
-              {{detail.overview}}
+              <div class="card-detail">{{detail.overview}}</div>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
           <div v-for="tool in detail.tools" :key="tool.id" class="tool-card">
             <div class="tool-card-left">
               <div class="tool-card-title">{{tool.name}}</div>
-              <div>{{tool.description}}</div>
+              <div class="tool-card-detail">{{tool.description}}</div>
             </div>
             <div class="tool-card-right">
               <el-image :src="tool.picture" fit="cover" class="tool-img" slot="error"></el-image>
@@ -39,7 +39,7 @@
       <div class="card-outer">
         <div class="card">
           <div class="card-title">科室职能介绍</div>
-          <div>{{detail.description}}</div>
+          <div class="card-detail">{{detail.description}}</div>
         </div>
       </div>
     </div>
@@ -121,6 +121,10 @@
     margin-bottom: 10px;
   }
 
+  .card-detail {
+    text-indent: 2em;
+  }
+
   .title {
     text-align: center;
     font-size: xx-large;
@@ -173,5 +177,9 @@
     font-weight: bold;
     line-height: 2em;
     margin-bottom: 10px;
+  }
+
+  .tool-card-detail {
+    text-indent: 2em;
   }
 </style>

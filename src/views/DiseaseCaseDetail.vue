@@ -4,7 +4,7 @@
       <div class="card-outer">
         <div class="title card">病例详情</div>
       </div>
-      <div class="two-card-component">
+      <div class="two-card-component info-img">
         <div class="one-in-two-card">
           <div class="one-card-outer card-outer">
             <div class="one-card card">
@@ -44,20 +44,23 @@
         <div class="card-outer">
           <div class="card">
             <div class="card-title">病例描述</div>
-            <div class="list-entry-row">
-              <div class="list-entry-col-key">病种</div>
-              <div v-for="diseaseName in diseaseNameList" :key="diseaseName" class="list-entry-col-value">{{diseaseName}}</div>
-            </div>
+<!--            <div class="list-entry-row">-->
+<!--              <div class="list-entry-col-key">病种</div>-->
+<!--              <div v-for="diseaseName in diseaseNameList" :key="diseaseName" class="list-entry-col-value">{{diseaseName}}</div>-->
+<!--            </div>-->
             <div class="disease-case-description">{{Object.keys(diseaseCase).length === 0 ? null : diseaseCase.description}}</div>
+            <div class="disease-line">
+              <span class="disease-tag" v-for="diseaseName in diseaseNameList" :key="diseaseName">{{diseaseName}}</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="two-card-component">
+      <div class="two-card-component picture-video">
         <div class="one-in-two-card">
           <div class="one-card-outer card-outer">
             <div class="one-card card">
               <div class="img-scroll-container">
-                <el-image width="470px" height="370px" v-for="picUrl in diseaseCase.picture" :key="picUrl" :src="picUrl"></el-image>
+                <el-image v-for="picUrl in diseaseCase.picture" :key="picUrl" :src="picUrl"></el-image>
               </div>
             </div>
           </div>
@@ -136,10 +139,10 @@ export default {
 }
 
 .card-title {
-  font-size: 30px;
+  font-size: x-large;
   text-align: center;
-  line-height: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  line-height: 2em;
 }
 
 .title {
@@ -154,7 +157,14 @@ export default {
   width: 100%;
   margin: 0 auto;
   display: flex;
-  height: 450px
+}
+
+.info-img {
+  height: 360px;
+}
+
+.picture-video {
+  height: 450px;
 }
 
 .one-in-two-card {
@@ -172,32 +182,48 @@ export default {
 
 .list-entry-row {
   display: flex;
-  margin-top: 2vh;
+  margin-top: 10px;
+  line-height: 2em;
+  border-bottom: 1px #eee dashed;
 }
 
 .list-entry-col-key {
-  text-align: left;
-  font-size: 20px;
-  width: 250px;
-  margin-left: 30px;
-  color: #303133;
-  padding: 10px;
+  font-weight: bold;
+  width: 100px;
+  margin-left: 10%;
+  color: #666;
 }
 
 .list-entry-col-value {
-  text-align: left;
-  font-size: 15px;
   margin-left: 30px;
   color: #303133;
-  padding: 10px;
+}
+
+.disease-line {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding: 0 20px;
+}
+
+.disease-tag {
+  margin: 0 10px;
+  background: #aacdff47;
+  padding: 0 10px;
+  line-height: 32px;
+  font-size: 12px;
+  color: #2f93f7;
+  border: 1px solid #d9ecff;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .disease-case-description {
   text-align: left;
   font-size: 15px;
-  margin-left: 30px;
   color: #303133;
   padding: 10px;
+  text-indent: 2em;
 }
 
 .pet-img {
@@ -206,16 +232,15 @@ export default {
 }
 
 .img-scroll-container {
-  width: 470px;
-  height: 370px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .video {
   background: #222222;
-  width: 470px;
-  height: 370px;
+  width: 100%;
+  height: 100%;
 }
 
 </style>

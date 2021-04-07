@@ -110,6 +110,7 @@
   .item-description {
     padding: 10px;
     font-size: 14px;
+    text-indent: 2em;
   }
 
 </style>

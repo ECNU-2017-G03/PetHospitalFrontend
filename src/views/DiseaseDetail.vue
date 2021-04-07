@@ -67,6 +67,7 @@ export default {
   line-height: 1.8em;
   color: #303133;
   padding: 10px;
+  text-indent: 2em;
 }
 
 </style>
