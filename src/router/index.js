@@ -18,6 +18,7 @@ import DiseaseCaseStudy from '@/views/DiseaseCaseStudy'
 import DiseaseDetail from '@/views/DiseaseDetail'
 import DiseaseCaseDetail from '@/views/DiseaseCaseDetail'
 import UserInfo from '@/views/UserInfo'
+import Panorama3D from "@/views/Panorama3D";
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,13 @@ const routes = [
     path: '/tour3d',
     name: 'Tour3D',
     component: Tour3D,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
+    path: '/panorama3D/:departmentId',
+    name: 'Panorama3D',
+    component: Panorama3D,
     meta: {
       requireAuth: true,
     }
