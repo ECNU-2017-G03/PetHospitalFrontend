@@ -6,7 +6,7 @@
         <div class="button-card">
          <div @click="handleClick('overview')">医院导览</div>
         </div>
-        <div class="button-card">
+        <div class="button-card" v-if="this.$store.state.actor!=='receptionist'">
           <div @click="handleClick('learning')">职能学习</div>
         </div>
         <div class="button-card">
@@ -30,7 +30,9 @@
       }
     },
     mounted() {
-      this.$refs.actorDialog.setDialogVisible()
+      if (this.$store.state.actor === null) {
+        this.$refs.actorDialog.setDialogVisible()
+      }
     },
     methods: {
       handleClick: function(name) {

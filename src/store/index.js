@@ -21,6 +21,7 @@ export default new Vuex.Store({
     userLogout (state) {
       state.token = null
       localStorage.removeItem('Token')
+      localStorage.removeItem('UserName')
     },
     saveUserName (state, name) {
       localStorage.setItem('UserName', name)

@@ -118,6 +118,7 @@
     display: inline-block;
     color: #66a6ff;
     width: 40px;
+    font-weight: bold;
     height: 40px;
     line-height: 40px;
     font-size: 16px;

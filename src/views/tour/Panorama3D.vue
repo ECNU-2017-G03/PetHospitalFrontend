@@ -1,0 +1,155 @@
+<template>
+  <div>
+    <div id='container'></div>
+    <button @mousedown="onCommand('left')">left</button>
+    <button @mousedown="onCommand('right')">right</button>
+    <button @mousedown="onCommand('up')">up</button>
+    <button @mousedown="onCommand('down')">down</button>
+    <button @mousedown="onCommand('high')">high</button>
+    <button @mousedown="onCommand('low')">low</button>
+  </div>
+</template>
+
+<script>
+import * as THREE from 'three'
+//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
+import {MTLLoader} from 'three/examples/jsm/loaders/MTLLoader'
+import {AmbientLight} from 'three'
+
+export default {
+  name: 'Panorama3D',
+  data() {
+    return {
+      departmentId: this.$route.params.departmentId,
+      departmentName: undefined,
+      x: undefined,
+      y: undefined,
+      z: undefined,
+      camera: undefined,
+      renderer: undefined,
+      scene: undefined,
+      control: undefined
+    }
+  },
+  created() {
+
+  },
+  mounted() {
+    this.queryPanorama()
+  },
+  methods: {
+    queryPanorama: function () {
+      this.axios
+          .get('/api/tour/queryPanorama', {params: {departmentId: this.departmentId}})
+          .then(res => {
+            this.departmentId = res.data.departmentId
+            this.departmentName = res.data.departmentName
+            this.x = res.data.x
+            this.y = res.data.y
+            this.z = res.data.z
+            this.loadObjModel()
+          })
+          .catch(err => {
+            console.error(err)
+            this.$message.error('获取3D全景信息失败')
+          })
+    },
+    loadObjModel: function () {
+      const manager = new THREE.LoadingManager();
+      manager.onStart = function (url, itemsLoaded, itemsTotal) {
+        console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+      };
+
+      manager.onLoad = function () {
+        console.log('Loading complete!');
+      };
+
+
+      manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+        console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+      };
+
+      manager.onError = function (url) {
+        console.log('There was an error loading ' + url);
+      };
+
+      let init = this.init
+      let mtlLoader = new MTLLoader(manager)
+      mtlLoader
+          .setPath(`${process.env.BASE_URL}`)
+          .load('petHospital.mtl',
+              function (materials) {
+                materials.preload()
+                let objLoader = new OBJLoader(manager)
+                objLoader
+                    .setPath(`${process.env.BASE_URL}`)
+                    .setMaterials(materials)
+                    .load('petHospital.obj', init)
+              })
+    },
+    init: function (objModel) {
+      this.renderer = new THREE.WebGLRenderer()
+      this.renderer.setPixelRatio(window.devicePixelRatio)
+      this.renderer.setSize(window.innerWidth, window.innerHeight * 0.85)
+      this.renderer.setClearColor(0xEEEEEE)
+      this.scene = new THREE.Scene()
+
+      this.camera = new THREE.PerspectiveCamera()
+      this.camera.position.set(this.x, this.y, this.z)
+      //this.camera.up = new THREE.Vector3(0,1,0)
+      this.camera.lookAt(1600, 1600, 3200)
+      console.log(this.camera.getWorldDirection())
+
+
+      // this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      // this.controls.enableZoom = true
+      // this.controls.enablePan = true
+      // this.controls.enableDamping = true
+      // this.controls.rotateSpeed = -0.25
+
+      let container = document.getElementById('container')
+
+      const light = new AmbientLight(0xFFFFFF)
+      this.scene.add(light)
+      this.scene.add(objModel)
+      container.appendChild(this.renderer.domElement)
+      // window.addEventListener('resize', this.onWindowResize)
+
+      this.animate()
+    },
+    animate: function () {
+      requestAnimationFrame(this.animate)
+      //this.controls.update() // required when damping is enabled
+      this.renderer.render(this.scene, this.camera)
+    },
+    onWindowResize: function () {
+      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.updateProjectionMatrix()
+
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
+    },
+    onCommand: function (key) {
+      if (key === 'down') {
+        this.z += 200
+      } else if (key === 'up') {
+        this.z -= 200
+      } else if (key === 'left') {
+        this.x -= 200
+      } else if (key === 'right') {
+        this.x += 200
+      } else if (key === 'high') {
+        this.y += 200
+      } else if (key === 'low') {
+        this.y -= 200
+      }
+      this.camera.position.set(this.x, this.y, this.z)
+      //this.renderer.render(this.scene, this.camera)
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

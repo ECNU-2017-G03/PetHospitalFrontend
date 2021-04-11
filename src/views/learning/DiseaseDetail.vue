@@ -47,7 +47,9 @@ export default {
   background-color: white;
   display: inline-block;
   margin-top: 15vh;
-  width: 400px;
+  margin-bottom: 40px;
+  width: 70vw;
+  max-width: 800px;
   padding: 20px 40px;
   border-radius: 5px;
   box-shadow: 0 10px 30px rgb(50 50 93 / 3%), 0 5px 15px rgb(0 0 0 / 7%);
@@ -55,16 +57,17 @@ export default {
 
 .disease-detail-name {
   text-align: center;
-  font-size: 30px;
+  font-size: xx-large;
   color: #303133;
   padding: 20px;
 }
 
 .disease-detail-description {
   text-align: justify;
-  font-size: 12px;
+  line-height: 1.8em;
   color: #303133;
   padding: 10px;
+  text-indent: 2em;
 }
 
 </style>
