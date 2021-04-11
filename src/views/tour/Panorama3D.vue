@@ -45,6 +45,8 @@ export default {
         })
     },
     loadPicture: function () {
+      // The default JWT bearer token is not accepted by azure storage.
+      // Send a anonymous GET request instead.
       const tempAxios = axios.create();
       tempAxios
         .get(this.panoramaPicture, {responseType: 'arraybuffer'})

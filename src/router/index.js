@@ -6,19 +6,20 @@ import Register from '@/views/Register'
 import Main from '@/views/Main'
 import Overview from '@/views/Overview'
 import page404 from '@/views/ErrorPage'
-import Tour3D from '@/views/Tour3D'
-import DepartmentList from '@/views/DepartmentList'
-import Department from '@/views/Department'
-import ItemDetail from '@/views/ItemDetail'
-import TestManage from '@/views/TestManage'
-import TestPage from '@/views/TestPage'
-import Learning from '@/views/Learning'
-import DiseaseStudy from '@/views/DiseaseStudy'
-import DiseaseCaseStudy from '@/views/DiseaseCaseStudy'
-import DiseaseDetail from '@/views/DiseaseDetail'
-import DiseaseCaseDetail from '@/views/DiseaseCaseDetail'
+import Tour3D from '@/views/tour/Tour3D'
+import DepartmentList from '@/views/tour/DepartmentList'
+import Department from '@/views/tour/Department'
+import ItemDetail from '@/views/tour/ItemDetail'
+import TestManage from '@/views/test/TestManage'
+import TestPage from '@/views/test/TestPage'
+import Learning from '@/views/learning/Learning'
+import DiseaseStudy from '@/views/learning/DiseaseStudy'
+import DiseaseCaseStudy from '@/views/learning/DiseaseCaseStudy'
+import DiseaseDetail from '@/views/learning/DiseaseDetail'
+import DiseaseCaseDetail from '@/views/learning/DiseaseCaseDetail'
 import UserInfo from '@/views/UserInfo'
-import Panorama3D from '@/views/Panorama3D'
+import Panorama3D from "@/views/tour/Panorama3D"
+import Model3D from "@/views/tour/Model3D"
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,13 @@ const routes = [
     path: '/panorama3D/:departmentId',
     name: 'Panorama3D',
     component: Panorama3D,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
+    path: '/model3D/:departmentId',
+    name: 'Model3D',
+    component: Model3D,
     meta: {
       requireAuth: true,
     }
