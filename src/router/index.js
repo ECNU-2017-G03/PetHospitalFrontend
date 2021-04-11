@@ -162,7 +162,7 @@ const routes = [
   }, {
     path: '*',
     redirect: '/404',
-  }，{
+  },{
     path: '/testHistory',
     name: 'TestHistory',
     component: TestHistory
