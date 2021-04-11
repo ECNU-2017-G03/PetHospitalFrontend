@@ -18,8 +18,9 @@ import DiseaseCaseStudy from '@/views/learning/DiseaseCaseStudy'
 import DiseaseDetail from '@/views/learning/DiseaseDetail'
 import DiseaseCaseDetail from '@/views/learning/DiseaseCaseDetail'
 import UserInfo from '@/views/UserInfo'
-import Panorama3D from "@/views/tour/Panorama3D"
-import Model3D from "@/views/tour/Model3D"
+import Panorama3D from '@/views/tour/Panorama3D'
+import Model3D from '@/views/tour/Model3D'
+import Tour2D from '@/views/tour/Tour2D'
 
 Vue.use(VueRouter)
 
@@ -145,6 +146,13 @@ const routes = [
     path: '/testPage/:id/:testName',
     name: 'TestPage',
     component: TestPage,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
+    path: '/tour2d',
+    name: 'Tour2D',
+    component: Tour2D,
     meta: {
       requireAuth: true,
     }
