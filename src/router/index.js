@@ -18,6 +18,8 @@ import DiseaseCaseStudy from '@/views/DiseaseCaseStudy'
 import DiseaseDetail from '@/views/DiseaseDetail'
 import DiseaseCaseDetail from '@/views/DiseaseCaseDetail'
 import UserInfo from '@/views/UserInfo'
+import TestHistory from "../views/TestHistory";
+import TestPastView from "../views/TestPastView";
 
 Vue.use(VueRouter)
 
@@ -134,6 +136,16 @@ const routes = [
     path: '/testPage/:id/:testName',
     name: 'TestPage',
     component: TestPage
+  },
+  {
+    path: '/testHistory',
+    name: 'TestHistory',
+    component: TestHistory
+  },
+  {
+    path: '/testPastView/:recordId/:testName/:snapShot',
+    name: 'TestPastView',
+    component: TestPastView
   }
 ]
 

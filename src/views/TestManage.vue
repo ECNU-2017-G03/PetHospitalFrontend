@@ -1,7 +1,10 @@
 <template>
-  <div>
     <div class="page-body">
       <div class="card-component">
+        <div class="card-component">
+          <div class="card-outer">
+            <div class="title card">考试列表</div>
+          </div>
         <div class="card-outer">
           <div class="card">
           <el-table
@@ -14,7 +17,7 @@
                 width="180">
             </el-table-column>
             <el-table-column
-                prop="startTime"
+                prop="startTimeDisplay"
                 label="开始时间">
             </el-table-column>
             <el-table-column
@@ -24,7 +27,7 @@
             <el-table-column
                 label="操作">
               <template slot-scope = "scope">
-                 <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName)">开始考试</el-button>
+                 <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -45,6 +48,7 @@ name: 'TestManage',
         quizId: '',
         testName: '',
         startTime: '',
+        startTimeDisPlay:'',
         duration: '',
         sid: '',
         endTime: '',
@@ -61,22 +65,26 @@ created() {
     }
   },
   methods: {
-    enterTestPage: function (id, testName) {
-      this.$router.push(`/testPage/${id}/${testName}`)
+    enterTestPage: function (id, testName, startTime) {
+      let date = Date.now()
+      let dateStart = Date.parse(startTime)
+      console.log(date)
+      console.log(dateStart)
+      // if(date < dateStart) {
+      //   this.$alert('未到考试时间，不能进入考试！', '提升', {
+      //     confirmButtonText: '确定',
+      //   });
+      // } else {
+        this.$router.push(`/testPage/${id}/${testName}`)
+      //}
     },
     getTestReady: function () {
-      this.axios.get('/api/test/enterTestFunc', {
-        params: {
-          id: '1c1edf7e-8423-4938-8ebc-ddbba58a0a4c',
-        }
-      }).then(res => {
+      this.axios.get('/api/test/enterTestFunc').then(res => {
         this.tableData = res.data['testInfo']
         for(let item of this.tableData) {
           item.testName = '虚拟宠物医院考试 ' + item.startTime.substring(0,10)
-          var date = new Date(item.startTime)
-          var str = date.getFullYear() + '-' + date.getMonth()
-              + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
-          item.startTime = str
+          item.startTimeDisPlay = item.startTime.substring(0,19)
+          item.duration =Math.ceil((new Date(item.endTime).getTime()- new Date(item.startTime) )/ (1000*60))
         }
       })
     }
@@ -120,5 +128,11 @@ created() {
   border-radius: 5px;
   box-shadow: 0 10px 30px rgba(5,50,93,0.03), 0 5px 15px rgba(0,0,0,0.07);
   transition-duration: 0.5s;
+}
+.title {
+  text-align: center;
+  font-size: x-large;
+  line-height: 40px;
+  height: 30px;
 }
 </style>
