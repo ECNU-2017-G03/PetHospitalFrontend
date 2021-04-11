@@ -1,11 +1,21 @@
 <template>
-  <div id='container' ref="container"></div>
+  <div>
+    <div id='container'></div>
+    <button @mousedown="onCommand('left')">left</button>
+    <button @mousedown="onCommand('right')">right</button>
+    <button @mousedown="onCommand('up')">up</button>
+    <button @mousedown="onCommand('down')">down</button>
+    <button @mousedown="onCommand('high')">high</button>
+    <button @mousedown="onCommand('low')">low</button>
+  </div>
 </template>
 
 <script>
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
-import axios from 'axios'
+//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
+import {MTLLoader} from 'three/examples/jsm/loaders/MTLLoader'
+import {AmbientLight} from 'three'
 
 export default {
   name: 'Panorama3D',
@@ -13,13 +23,13 @@ export default {
     return {
       departmentId: this.$route.params.departmentId,
       departmentName: undefined,
-      panoramaPicture: undefined,
+      x: undefined,
+      y: undefined,
+      z: undefined,
       camera: undefined,
-      controls: undefined,
       renderer: undefined,
       scene: undefined,
-      image: undefined,
-      textures: []
+      control: undefined
     }
   },
   created() {
@@ -31,100 +41,110 @@ export default {
   methods: {
     queryPanorama: function () {
       this.axios
-        .get('/api/tour/queryPanorama', {params: {departmentId: this.departmentId}})
-        .then(res => {
-          console.log(res)
-          this.departmentId = res.data.departmentId
-          this.departmentName = res.data.departmentName
-          this.panoramaPicture = res.data.panoramaPicture
-          this.loadPicture()
-        })
-        .catch(err => {
-          console.log(err)
-          this.$message.error('获取3D全景信息失败')
-        })
+          .get('/api/tour/queryPanorama', {params: {departmentId: this.departmentId}})
+          .then(res => {
+            this.departmentId = res.data.departmentId
+            this.departmentName = res.data.departmentName
+            this.x = res.data.x
+            this.y = res.data.y
+            this.z = res.data.z
+            this.loadObjModel()
+          })
+          .catch(err => {
+            console.error(err)
+            this.$message.error('获取3D全景信息失败')
+          })
     },
-    loadPicture: function () {
-      // The default JWT bearer token is not accepted by azure storage.
-      // Send a anonymous GET request instead.
-      const tempAxios = axios.create();
-      tempAxios
-        .get(this.panoramaPicture, {responseType: 'arraybuffer'})
-        .then(res => {
-          console.log(res)
-          let base64String = btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-          this.image = new Image()
-          const init = this.init
-          this.image.onload = function () {
-            init()
-          }
-          this.image.src = 'data:image/jpeg;base64, ' + base64String;
-        })
-        .catch(err => {
-          console.log(err)
-          this.$message.error('获取3D全景图失败')
-        })
+    loadObjModel: function () {
+      const manager = new THREE.LoadingManager();
+      manager.onStart = function (url, itemsLoaded, itemsTotal) {
+        console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+      };
+
+      manager.onLoad = function () {
+        console.log('Loading complete!');
+      };
+
+
+      manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+        console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+      };
+
+      manager.onError = function (url) {
+        console.log('There was an error loading ' + url);
+      };
+
+      let init = this.init
+      let mtlLoader = new MTLLoader(manager)
+      mtlLoader
+          .setPath(`${process.env.BASE_URL}`)
+          .load('petHospital.mtl',
+              function (materials) {
+                materials.preload()
+                let objLoader = new OBJLoader(manager)
+                objLoader
+                    .setPath(`${process.env.BASE_URL}`)
+                    .setMaterials(materials)
+                    .load('petHospital.obj', init)
+              })
     },
-    init: function () {
-      this.renderer = new THREE.WebGLRenderer();
-      this.renderer.setPixelRatio(window.devicePixelRatio);
-      this.renderer.setSize(window.innerWidth, window.innerHeight * 0.80);
+    init: function (objModel) {
+      this.renderer = new THREE.WebGLRenderer()
+      this.renderer.setPixelRatio(window.devicePixelRatio)
+      this.renderer.setSize(window.innerWidth, window.innerHeight * 0.85)
+      this.renderer.setClearColor(0xEEEEEE)
+      this.scene = new THREE.Scene()
 
-      this.scene = new THREE.Scene();
+      this.camera = new THREE.PerspectiveCamera()
+      this.camera.position.set(this.x, this.y, this.z)
+      //this.camera.up = new THREE.Vector3(0,1,0)
+      this.camera.lookAt(1600, 1600, 3200)
+      console.log(this.camera.getWorldDirection())
 
-      this.camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 100);
-      this.camera.position.z = 0.01;
 
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-      this.controls.enableZoom = false;
-      this.controls.enablePan = false;
-      this.controls.enableDamping = true;
-      this.controls.rotateSpeed = -0.25;
+      // this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      // this.controls.enableZoom = true
+      // this.controls.enablePan = true
+      // this.controls.enableDamping = true
+      // this.controls.rotateSpeed = -0.25
 
-      let container = document.getElementById('container');
-      const materials = [];
+      let container = document.getElementById('container')
 
-      const tilesNum = 6
-      for (let i = 0; i < tilesNum; i++) {
-        this.textures[i] = new THREE.Texture();
-      }
-
-      let canvas, context;
-      const tileWidth = this.image.height;
-
-      for (let i = 0; i < this.textures.length; i++) {
-        canvas = document.createElement('canvas');
-        context = canvas.getContext('2d');
-        canvas.height = tileWidth;
-        canvas.width = tileWidth;
-        context.drawImage(this.image, tileWidth * i, 0, tileWidth, tileWidth, 0, 0, tileWidth, tileWidth);
-        this.textures[i].image = canvas;
-        this.textures[i].needsUpdate = true;
-      }
-
-      for (let i = 0; i < 6; i++) {
-        materials.push(new THREE.MeshBasicMaterial({'map': this.textures[i]}));
-      }
-
-      const skyBox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), materials);
-      skyBox.geometry.scale(1, 1, -1);
-      this.scene.add(skyBox);
-      container.appendChild(this.renderer.domElement);
-      window.addEventListener('resize', this.onWindowResize);
+      const light = new AmbientLight(0xFFFFFF)
+      this.scene.add(light)
+      this.scene.add(objModel)
+      container.appendChild(this.renderer.domElement)
+      // window.addEventListener('resize', this.onWindowResize)
 
       this.animate()
     },
     animate: function () {
-      requestAnimationFrame(this.animate);
-      this.controls.update(); // required when damping is enabled
-      this.renderer.render(this.scene, this.camera);
+      requestAnimationFrame(this.animate)
+      //this.controls.update() // required when damping is enabled
+      this.renderer.render(this.scene, this.camera)
     },
-
     onWindowResize: function () {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
+      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.updateProjectionMatrix()
 
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
+    },
+    onCommand: function (key) {
+      if (key === 'down') {
+        this.z += 200
+      } else if (key === 'up') {
+        this.z -= 200
+      } else if (key === 'left') {
+        this.x -= 200
+      } else if (key === 'right') {
+        this.x += 200
+      } else if (key === 'high') {
+        this.y += 200
+      } else if (key === 'low') {
+        this.y -= 200
+      }
+      this.camera.position.set(this.x, this.y, this.z)
+      //this.renderer.render(this.scene, this.camera)
     }
   }
 }
