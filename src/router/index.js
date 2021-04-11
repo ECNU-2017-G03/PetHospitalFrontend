@@ -18,7 +18,7 @@ import DiseaseCaseStudy from '@/views/DiseaseCaseStudy'
 import DiseaseDetail from '@/views/DiseaseDetail'
 import DiseaseCaseDetail from '@/views/DiseaseCaseDetail'
 import UserInfo from '@/views/UserInfo'
-import Panorama3D from "@/views/Panorama3D";
+import Panorama3D from '@/views/Panorama3D'
 
 Vue.use(VueRouter)
 
@@ -127,21 +127,25 @@ const routes = [
       requireAuth: true,
     }
   }, {
+    path: '/test',
+    name: 'TestManage',
+    component: TestManage,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
+    path: '/testPage/:id/:testName',
+    name: 'TestPage',
+    component: TestPage,
+    meta: {
+      requireAuth: true,
+    }
+  }, {
     path: '/404',
     component: page404,
   }, {
     path: '*',
     redirect: '/404',
-  },
-  {
-    path: '/test',
-    name: 'TestManage',
-    component: TestManage,
-  },
-  {
-    path: '/testPage/:id/:testName',
-    name: 'TestPage',
-    component: TestPage
   }
 ]
 
