@@ -70,17 +70,18 @@ created() {
       let dateStart = Date.parse(startTime)
       console.log(date)
       console.log(dateStart)
-      // if(date < dateStart) {
-      //   this.$alert('未到考试时间，不能进入考试！', '提升', {
-      //     confirmButtonText: '确定',
-      //   });
-      // } else {
+      if(date < dateStart) {
+        this.$alert('未到考试时间，不能进入考试！', '提升', {
+          confirmButtonText: '确定',
+        });
+      } else {
         this.$router.push(`/testPage/${id}/${testName}`)
-      //}
+      }
     },
     getTestReady: function () {
       this.axios.get('/api/test/enterTestFunc').then(res => {
         this.tableData = res.data['testInfo']
+        console.log(res.data)
         for(let item of this.tableData) {
           item.testName = '虚拟宠物医院考试 ' + item.startTime.substring(0,10)
           item.startTimeDisplay = item.startTime.substring(0,10) + ' ' + item.startTime.substring(11, 19)
