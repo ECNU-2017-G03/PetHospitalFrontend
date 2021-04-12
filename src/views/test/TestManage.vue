@@ -14,7 +14,7 @@
             <el-table-column
                 prop="testName"
                 label="考试名称"
-                width="180">
+                width="230">
             </el-table-column>
             <el-table-column
                 prop="startTimeDisplay"
@@ -83,7 +83,7 @@ created() {
         this.tableData = res.data['testInfo']
         for(let item of this.tableData) {
           item.testName = '虚拟宠物医院考试 ' + item.startTime.substring(0,10)
-          item.startTimeDisPlay = item.startTime.substring(0,19)
+          item.startTimeDisplay = item.startTime.substring(0,10) + ' ' + item.startTime.substring(11, 19)
           item.duration =Math.ceil((new Date(item.endTime).getTime()- new Date(item.startTime) )/ (1000*60))
         }
       })
