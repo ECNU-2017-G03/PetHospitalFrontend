@@ -66,8 +66,9 @@ created() {
   },
   methods: {
     enterTestPage: function (id, testName, startTime) {
-      let date = Date.now()
+      let date = new Date()
       let dateStart = Date.parse(startTime)
+      console.log(startTime)
       console.log(date)
       console.log(dateStart)
       if(date < dateStart) {
