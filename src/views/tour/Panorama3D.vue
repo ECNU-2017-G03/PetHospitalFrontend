@@ -1,12 +1,17 @@
 <template>
   <div>
-    <div id='container'></div>
-    <button @mousedown="onCommand('left')">left</button>
-    <button @mousedown="onCommand('right')">right</button>
-    <button @mousedown="onCommand('up')">up</button>
-    <button @mousedown="onCommand('down')">down</button>
-    <button @mousedown="onCommand('high')">high</button>
-    <button @mousedown="onCommand('low')">low</button>
+    <div class="container" id='container'></div>
+    <div class="control-pane">
+      <button @mousedown="onCommand('left')">left</button>
+      <button @mousedown="onCommand('right')">right</button>
+      <button @mousedown="onCommand('up')">up</button>
+      <button @mousedown="onCommand('down')">down</button>
+      <button @mousedown="onCommand('high')">high</button>
+      <button @mousedown="onCommand('low')">low</button>
+      <div>x: {{ this.x }}</div>
+      <div>y: {{ this.y }}</div>
+      <div>z: {{ this.z }}</div>
+    </div>
   </div>
 </template>
 
@@ -15,7 +20,6 @@ import * as THREE from 'three'
 //import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
 import {MTLLoader} from 'three/examples/jsm/loaders/MTLLoader'
-import {AmbientLight} from 'three'
 
 export default {
   name: 'Panorama3D',
@@ -48,6 +52,7 @@ export default {
             this.x = res.data.x
             this.y = res.data.y
             this.z = res.data.z
+            console.log(res.data)
             this.loadObjModel()
           })
           .catch(err => {
@@ -95,10 +100,10 @@ export default {
       this.renderer.setClearColor(0xEEEEEE)
       this.scene = new THREE.Scene()
 
-      this.camera = new THREE.PerspectiveCamera()
+      this.camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1,5000)
       this.camera.position.set(this.x, this.y, this.z)
       //this.camera.up = new THREE.Vector3(0,1,0)
-      this.camera.lookAt(1600, 1600, 3200)
+      this.camera.lookAt(this.x, 0, this.z - 800)
       console.log(this.camera.getWorldDirection())
 
 
@@ -110,8 +115,15 @@ export default {
 
       let container = document.getElementById('container')
 
-      const light = new AmbientLight(0xFFFFFF)
-      this.scene.add(light)
+      const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+      directionalLight.position.set(0, 3200, 0)
+      directionalLight.target.x = 1600
+      directionalLight.target.y = 1600
+      directionalLight.target.z = 1600
+      directionalLight.castShadow = true
+      const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5)
+      this.scene.add(directionalLight)
+      this.scene.add(ambientLight)
       this.scene.add(objModel)
       container.appendChild(this.renderer.domElement)
       // window.addEventListener('resize', this.onWindowResize)
@@ -151,5 +163,12 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100vw;
+}
 
+.control-pane {
+  width: 100vw;
+  display: flex;
+}
 </style>
