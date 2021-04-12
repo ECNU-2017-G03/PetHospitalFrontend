@@ -48,7 +48,7 @@ name: 'TestManage',
         quizId: '',
         testName: '',
         startTime: '',
-        startTimeDisPlay:'',
+        startTimeDisplay:'',
         duration: '',
         sid: '',
         endTime: '',
@@ -85,7 +85,8 @@ created() {
         console.log(res.data)
         for(let item of this.tableData) {
           item.testName = '虚拟宠物医院考试 ' + item.startTime.substring(0,10)
-          item.startTimeDisplay = item.startTime.substring(0,10) + ' ' + item.startTime.substring(11, 19)
+          item.startTimeDisplay = (new Date(item.startTime)).toLocaleString()
+          // item.startTimeDisplay = item.startTime.substring(0,10) + ' ' + item.startTime.substring(11, 19)
           item.duration =Math.ceil((new Date(item.endTime).getTime()- new Date(item.startTime) )/ (1000*60))
         }
       })
