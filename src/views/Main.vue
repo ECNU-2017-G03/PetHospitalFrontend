@@ -30,9 +30,7 @@
       }
     },
     mounted() {
-      if (this.$store.state.actor === null) {
-        this.$refs.actorDialog.setDialogVisible()
-      }
+      this.$refs.actorDialog.setDialogVisible()
     },
     methods: {
       handleClick: function(name) {
