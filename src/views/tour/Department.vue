@@ -78,8 +78,11 @@
                 id: this.id,
               }})
             .then(res => {
-              console.log(res)
               this.detail = res.data
+            })
+            .catch(err => {
+              console.log(err)
+              this.$message.error('您无权限访问此科室')
             })
       },
 

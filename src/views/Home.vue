@@ -10,6 +10,7 @@
           </div>
           <div class="button-container">
             <button class="home-button" @click="learning">进入学习</button>
+            <a class="admin-button" href="https://www.baidu.com">管理员登录</a>
           </div>
         </div>
       </div>
@@ -124,6 +125,7 @@ export default {
   .button-container {
     margin-top: 18vh;
     margin-bottom: 8vh;
+    position: relative;
   }
 
   .home-button {
@@ -137,16 +139,23 @@ export default {
     font-size: large;
     line-height: 1.5em;
     padding: 10px 20px;
-
+    cursor: pointer;
   }
 
   .home-button:hover {
-    cursor: pointer;
     border: 2px solid #eaeaea;
     background-color: #eaeaea;
     color: #aaa;
   }
 
+  .admin-button {
+    color: #eaeaea;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    position: absolute;
+    top: 15px;
+  }
 
   .cover {
     /*background-color: rgba(255, 255, 255, 0.05);*/

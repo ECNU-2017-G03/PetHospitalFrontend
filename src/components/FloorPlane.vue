@@ -57,6 +57,11 @@
       this.draw()
       this.setListener()
     },
+    computed: {
+      actor() {
+        return this.$store.state.actor
+      }
+    },
     methods: {
       computePosition: function() {
         const canvas = document.getElementById('floor')

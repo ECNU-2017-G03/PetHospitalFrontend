@@ -1,11 +1,17 @@
 <template>
   <div>
     <div class="container" id='container'></div>
+    <div>
+      <div class="button-3d button-left el-icon-caret-left" @click="onCommand('left')"></div>
+      <div class="button-3d button-top el-icon-caret-top" @click="onCommand('up')"></div>
+      <div class="button-3d button-right el-icon-caret-right" @click="onCommand('right')"></div>
+      <div class="button-3d button-bottom el-icon-caret-bottom" @click="onCommand('down')"></div>
+    </div>
     <div class="control-pane">
-      <button @mousedown="onCommand('left')">left</button>
-      <button @mousedown="onCommand('right')">right</button>
-      <button @mousedown="onCommand('up')">up</button>
-      <button @mousedown="onCommand('down')">down</button>
+<!--      <button @mousedown="onCommand('left')">left</button>-->
+<!--      <button @mousedown="onCommand('right')">right</button>-->
+<!--      <button @mousedown="onCommand('up')">up</button>-->
+<!--      <button @mousedown="onCommand('down')">down</button>-->
       <button @mousedown="onCommand('high')">high</button>
       <button @mousedown="onCommand('low')">low</button>
       <div>x: {{ this.x }}</div>
@@ -170,5 +176,39 @@ export default {
 .control-pane {
   width: 100vw;
   display: flex;
+}
+
+.button-3d {
+  position: absolute;
+
+  background-color: #ffffff55;
+  color: white;
+  border-radius: 50%;
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+.button-3d:hover {
+  background-color: #ffffff88;
+}
+
+.button-left {
+  top: 40vh;
+  left: 30px;
+}
+
+.button-top {
+  top: 90px;
+  left: 48vw;
+}
+
+.button-right {
+  top: 40vh;
+  right: 30px;
+}
+
+.button-bottom {
+  bottom: 120px;
+  left: 48vw;
 }
 </style>

@@ -111,6 +111,7 @@
     border-radius: 5px;
     box-shadow: 0 10px 30px rgba(5,50,93,0.03), 0 5px 15px rgba(0,0,0,0.07);
     transition-duration: 0.5s;
+    margin: 10px 0;
   }
 
   .button-card:hover {

@@ -131,6 +131,7 @@
     top: 60px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(5,50,93,0.02), 0 5px 15px rgba(0,0,0,0.03);
+    z-index: 1000;
   }
 
   .dropdown {
