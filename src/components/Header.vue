@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="home el-icon-s-home" @click="toHomePage"></div>
+    <div class="home el-icon-s-home" @click="toHomePage" v-if="$route.meta.requireAuth"></div>
     <div class="title" @click="toMainPage">Pet Hospital</div>
     <div class="avatar-container" @click="changeDropdownShow" v-if="$route.meta.requireAuth">
       <span class="avatar">{{userFirstLetter}}</span>

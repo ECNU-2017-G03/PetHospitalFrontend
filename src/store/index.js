@@ -8,6 +8,7 @@ export default new Vuex.Store({
     token: localStorage.getItem('Token'),
     actor: localStorage.getItem('Actor'),
     userName: localStorage.getItem('UserName'),
+    firstToMain: false,
   },
   mutations: {
     saveToken (state, token) {
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     saveActor (state, actor) {
       localStorage.setItem('Actor', actor)
       state.actor = actor
+      state.firstToMain = true
     },
     userLogout (state) {
       state.token = null

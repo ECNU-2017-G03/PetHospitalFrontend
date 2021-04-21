@@ -148,7 +148,10 @@ const routes = [
   }, {
     path: '/testPage/:id/:testName',
     name: 'TestPage',
-    component: TestPage
+    component: TestPage,
+    meta: {
+      requireAuth: true,
+    }
   },{
     path: '/tour2d',
     name: 'Tour2D',
@@ -165,11 +168,17 @@ const routes = [
   },{
     path: '/testHistory',
     name: 'TestHistory',
-    component: TestHistory
+    component: TestHistory,
+    meta: {
+      requireAuth: true,
+    }
   },{
     path: '/testPastView/:recordId/:testName/:snapShot',
     name: 'TestPastView',
-    component: TestPastView
+    component: TestPastView,
+    meta: {
+      requireAuth: true,
+    }
   }
 ]
 
