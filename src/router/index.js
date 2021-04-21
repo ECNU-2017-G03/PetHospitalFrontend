@@ -18,8 +18,8 @@ import DiseaseCaseStudy from '@/views/learning/DiseaseCaseStudy'
 import DiseaseDetail from '@/views/learning/DiseaseDetail'
 import DiseaseCaseDetail from '@/views/learning/DiseaseCaseDetail'
 import UserInfo from '@/views/UserInfo'
-import TestHistory from "../views/TestHistory";
-import TestPastView from "../views/TestPastView";
+import TestHistory from '../views/test/TestHistory'
+import TestPastView from '../views/test/TestPastView'
 import Panorama3D from '@/views/tour/Panorama3D'
 import Model3D from '@/views/tour/Model3D'
 import Tour2D from '@/views/tour/Tour2D'

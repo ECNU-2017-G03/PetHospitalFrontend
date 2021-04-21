@@ -1,41 +1,42 @@
 <template>
-    <div class="page-body">
+  <div class="page-body">
+    <div class="card-component">
       <div class="card-component">
-        <div class="card-component">
-          <div class="card-outer">
-            <div class="title card">考试列表</div>
-          </div>
+        <div class="card-outer">
+          <div class="title card">考试列表</div>
+        </div>
         <div class="card-outer">
           <div class="card">
-          <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
-            <el-table-column
-                prop="testName"
-                label="考试名称"
-                width="230">
-            </el-table-column>
-            <el-table-column
-                prop="startTimeDisplay"
-                label="开始时间">
-            </el-table-column>
-            <el-table-column
-                prop="duration"
-                label="考试时长">
-            </el-table-column>
-            <el-table-column
-                label="操作">
-              <template slot-scope = "scope">
-                 <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+            <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+              <el-table-column
+                  prop="testName"
+                  label="考试名称"
+                  width="230">
+              </el-table-column>
+              <el-table-column
+                  prop="startTimeDisplay"
+                  label="开始时间">
+              </el-table-column>
+              <el-table-column
+                  prop="duration"
+                  label="考试时长">
+              </el-table-column>
+              <el-table-column
+                  label="操作">
+                <template slot-scope = "scope">
+                   <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
         </div>
+      </div>
     </div>
+    <div class="card test-record-button" @click="toHistory">历史考试</div>
   </div>
-    </div>
 </template>
 
 <script>
@@ -43,16 +44,7 @@ export default {
 name: 'TestManage',
   data() {
     return {
-      tableData: [{
-        testId: '',
-        quizId: '',
-        testName: '',
-        startTime: '',
-        startTimeDisplay:'',
-        duration: '',
-        sid: '',
-        endTime: '',
-      }]
+      tableData: []
     }
   },
 created() {
@@ -90,6 +82,9 @@ created() {
           item.duration =Math.ceil((new Date(item.endTime).getTime()- new Date(item.startTime) )/ (1000*60))
         }
       })
+    },
+    toHistory: function () {
+      this.$router.push('/testHistory')
     }
   }
 }
@@ -137,5 +132,14 @@ created() {
   font-size: x-large;
   line-height: 40px;
   height: 30px;
+}
+
+.test-record-button {
+  position: absolute;
+  top: 200px;
+  right: 20px;
+  font-size: small;
+  cursor: pointer;
+  z-index: 100;
 }
 </style>

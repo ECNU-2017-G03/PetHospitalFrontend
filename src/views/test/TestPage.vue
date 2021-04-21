@@ -8,16 +8,16 @@
       <div class="card-right-side">
         <el-collapse >
           <el-collapse-item title="查看考试进度" name="2">
-        <div class="title-time">
-        <span>剩余时间</span>
-        </div>
-        <FlipDown :endDate="endTime" @timeUp="exceedToSubmit"></FlipDown>
-        <div class="title-time">
-          <span>做题进度</span>
-        </div>
-      <div class="progress">
-        <el-progress type="circle" :percentage="percentage"></el-progress>
-        </div>
+            <div class="title-time">
+              <span>剩余时间</span>
+            </div>
+            <FlipDown :endDate="endTime" @timeUp="exceedToSubmit"></FlipDown>
+            <div class="title-time">
+              <span>做题进度</span>
+            </div>
+            <div class="progress">
+              <el-progress type="circle" :percentage="percentage"></el-progress>
+            </div>
           </el-collapse-item>
         </el-collapse>
       </div>
@@ -25,31 +25,31 @@
         <div class="card">
           <el-form :model="testPaper">
             <template v-for="(item,index) in testPaper.questions">
-          <el-form-item :label="`Question ${index+1}`" :key="index">
-            <div class="question">{{item.content}}</div>
-            <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="A">{{item.options.A}}</el-radio>
-            <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="B">{{item.options.B}}</el-radio>
-            <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="C">{{item.options.C}}</el-radio>
-          </el-form-item>
+              <el-form-item :label="`Q ${index+1}`" :key="index">
+                <div class="question">{{item.content}}</div>
+                <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="A">{{item.options.A}}</el-radio>
+                <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="B">{{item.options.B}}</el-radio>
+                <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="C">{{item.options.C}}</el-radio>
+              </el-form-item>
             </template>
             <el-form-item>
               <div class= "buttonSubmit">
-              <el-button type="primary" @click="submitTest">交卷</el-button>
+                <el-button type="primary" @click="submitTest">交卷</el-button>
               </div>
             </el-form-item>
           </el-form>
           <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :bottom="100"></el-backtop>
-          <el-dialog
+            <el-dialog
               title="试卷提交"
               :visible.sync="dialogVisible"
               width="30%"
               >
             <span>{{message}}</span>
             <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取消</el-button>
-    <el-button type="primary" v-if="message==='提交成功！' " @click="goToHistory">确定</el-button>
+              <el-button @click="dialogVisible = false">取消</el-button>
+              <el-button type="primary" v-if="message==='提交成功！' " @click="goToHistory">确定</el-button>
               <el-button v-if="message==='提交失败！'" type="primary" @click="retry">重试</el-button>
-  </span>
+            </span>
           </el-dialog>
           <el-dialog
               title="试卷提交"
@@ -58,9 +58,9 @@
           >
             <span>{{message}}</span>
             <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogSubmit = false">取消</el-button>
-    <el-button type="primary"  @click="realTry">确定</el-button>
-  </span>
+            <el-button @click="dialogSubmit = false">取消</el-button>
+            <el-button type="primary"  @click="realTry">确定</el-button>
+            </span>
           </el-dialog>
         </div>
       </div>
@@ -96,18 +96,20 @@ export default {
       },
       percentage: 50,
       testPaper: {
-        questions: [{
-        answer:'',
-        content:'',
-        disease:'',
-        id:'',
-        options:{
-          A:'',
-          B:'',
-          C:'',
-        },
-        score: 5,
-      }],
+        questions: [
+        //     {
+        //   answer:'',
+        //   content:'',
+        //   disease:'',
+        //   id:'',
+        //   options:{
+        //     A:'',
+        //     B:'',
+        //     C:'',
+        //   },
+        //   score: 5,
+        // }
+        ],
         quizId: '',
         testId: '',
         startTime: '',
@@ -139,8 +141,8 @@ export default {
       this.testAnswer.testId = this.testPaper.testId
       this.testAnswer.startTime = this.testPaper.startTime
       this.testAnswer.endTime = this.testPaper.endTime
-      for(let item of this.testPaper.questions) {
-        var q = {
+      for (let item of this.testPaper.questions) {
+        let q = {
           choice: '',
           qid: item.id,
           score: item.score,
@@ -196,8 +198,8 @@ export default {
     changeProgress: function() {
       console.log(this.answeredQuestion)
       let count = 0
-      for(let i = 0; i < this.testAnswer.questions.length; i++) {
-        if(this.testAnswer.questions[i].choice !== '') {
+      for (let i = 0; i < this.testAnswer.questions.length; i++) {
+        if (this.testAnswer.questions[i].choice !== '') {
           count+= 1
         }
       }
@@ -205,15 +207,15 @@ export default {
       this.percentage = Math.round(this.answeredQuestion / this.totalQuestion * 100)
     },
     submitTest: function() {
-      if(this.answeredQuestion < this.totalQuestion && this.realSubmit === false) {
+      if (this.answeredQuestion < this.totalQuestion && this.realSubmit === false) {
         console.log("enter if")
         this.dialogSubmit = true
         this.message = "仍有题目未作答，是否确认提交？"
 
       } else {
-        if(this.realSubmit === true) {
-          for(let i = 0; i < this.testAnswer.questions.length; i++) {
-            if(this.testAnswer.questions[i].choice === '') {
+        if (this.realSubmit === true) {
+          for (let i = 0; i < this.testAnswer.questions.length; i++) {
+            if (this.testAnswer.questions[i].choice === '') {
               this.testAnswer.questions[i].choice = 'None'
             }
           }
@@ -272,13 +274,12 @@ export default {
   transition-duration: 0.5s;
   line-height: 1.5em;
   overflow: hidden;
-  position: absolute;
-  margin-left: 1090px;
-  margin-right: 10px;
+  position: fixed;
+  top: 150px;
+  right: 12px;
 }
 .progress {
   margin-top: 10px;
-  margin-right: 200px;
 }
 
 .buttonSubmit {

@@ -14,11 +14,12 @@
               <el-table-column
                   prop="testName"
                   label="考试名称"
-                  width="180">
+                  width="220">
               </el-table-column>
               <el-table-column
-                  prop="startTime"
-                  label="开始时间">
+                  prop="startTimeDisplay"
+                  label="开始时间"
+                  width="160">
               </el-table-column>
               <el-table-column
                   prop="duration"
@@ -55,21 +56,23 @@ export default {
   name: "TestHistory",
   data() {
     return {
-      tableData: [{
-        recordId: '',
-        testId: '',
-        quizId: '',
-        testName: '',
-        startTime: '',
-        duration: '',
-        sid: '',
-        total: '',
-        score: '',
-        endTime: '',
-        costTime: '',
-        submitTime: '',
-        snapShot: '',
-      }]
+      tableData: [
+      //     {
+      //   recordId: '',
+      //   testId: '',
+      //   quizId: '',
+      //   testName: '',
+      //   startTime: '',
+      //   duration: '',
+      //   sid: '',
+      //   total: '',
+      //   score: '',
+      //   endTime: '',
+      //   costTime: '',
+      //   submitTime: '',
+      //   snapShot: '',
+      // }
+      ]
     }
   },
   created() {
@@ -80,7 +83,7 @@ export default {
       console.log(recordId)
       console.log(testName)
       console.log(snapShot)
-      var shot = JSON.stringify(snapShot)
+      let shot = JSON.stringify(snapShot)
       this.$router.push(`/testPastView/${recordId}/${testName}/`+encodeURIComponent(shot))
     },
     getTestRecord: function() {
@@ -89,11 +92,12 @@ export default {
         console.log(res.data)
         this.tableData = res.data['records']
         console.log(res.data['records'].length)
-        for(let i = 0; i < this.tableData.length; i++) {
+        for (let i = 0; i < this.tableData.length; i++) {
           let item = this.tableData[i]
-          item.duration =Math.ceil((new Date(item.endTime).getTime() - new Date(item.startTime).getTime())/(1000*60))
-          item.costTime =Math.ceil((new Date(item.submitTime).getTime() - new Date(item.startTime).getTime())/(1000*60))
+          item.duration = Math.ceil((new Date(item.endTime).getTime() - new Date(item.startTime).getTime())/(1000*60))
+          item.costTime = Math.ceil((new Date(item.submitTime).getTime() - new Date(item.startTime).getTime())/(1000*60))
           item.testName = '虚拟宠物医院考试 ' + item.startTime.substring(0,10)
+          item.startTimeDisplay = (new Date(item.startTime)).toLocaleString()
           console.log(item.duration)
           console.log(item.costTime)
           console.log(item.testName)

@@ -100,10 +100,12 @@ export default {
               })
     },
     init: function (objModel) {
+      objModel.receiveShadow = true
       this.renderer = new THREE.WebGLRenderer()
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.renderer.setSize(window.innerWidth, window.innerHeight * 0.85)
       this.renderer.setClearColor(0xEEEEEE)
+      this.renderer.shadowMapEnabled = true
       this.scene = new THREE.Scene()
 
       this.camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1,5000)
@@ -122,15 +124,20 @@ export default {
       let container = document.getElementById('container')
 
       const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.5);
-      directionalLight.position.set(0, 3200, 0)
-      directionalLight.target.x = 1600
-      directionalLight.target.y = 1600
-      directionalLight.target.z = 1600
+      directionalLight.position.set(1, 3, 3)
+      const directionalLight2 = new THREE.DirectionalLight(0xFFFFFF, 0.3);
+      directionalLight2.position.set(1, 2, 1)
+      // directionalLight.target.x = 1600
+      // directionalLight.target.y = 1600
+      // directionalLight.target.z = 1600
       directionalLight.castShadow = true
       const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5)
+
       this.scene.add(directionalLight)
+      this.scene.add(directionalLight2)
       this.scene.add(ambientLight)
       this.scene.add(objModel)
+
       container.appendChild(this.renderer.domElement)
       // window.addEventListener('resize', this.onWindowResize)
 
@@ -180,7 +187,6 @@ export default {
 
 .button-3d {
   position: absolute;
-
   background-color: #ffffff55;
   color: white;
   border-radius: 50%;

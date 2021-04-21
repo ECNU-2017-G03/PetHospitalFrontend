@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <div class="home el-icon-s-home" @click="toHomePage"></div>
     <div class="title" @click="toMainPage">Pet Hospital</div>
     <div class="avatar-container" @click="changeDropdownShow" v-if="$route.meta.requireAuth">
       <span class="avatar">{{userFirstLetter}}</span>
@@ -48,6 +49,9 @@
       ...mapMutations(['userLogout']),
       toMainPage: function () {
         this.$router.push('/')
+      },
+      toHomePage: function () {
+        this.$router.push('/main')
       },
       clickDropdownItem: function (name) {
         if (name === 'actor') {
@@ -173,5 +177,14 @@
   .default-enter,
   .default-leave-to {
     max-height: 0;
+  }
+
+  .home {
+    position: absolute;
+    display: block;
+    font-size: x-large;
+    margin-left: 20px;
+    margin-top: 12px;
+    cursor: pointer;
   }
 </style>
