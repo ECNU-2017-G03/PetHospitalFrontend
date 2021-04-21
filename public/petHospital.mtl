@@ -1,5 +1,5 @@
 # 
-# ?? Sweet Home 3D ?? - ??? ?? 10 01:02:05 CST 2021
+# ?? Sweet Home 3D ?? - ??? ?? 16 13:07:31 CST 2021
 # http://www.sweethome3d.com/
 # 
 
@@ -40,7 +40,7 @@ Ni 1
 d 1.0
 map_Kd petHospital_room_120_716.png
 
-newmtl room_155_751
+newmtl room_154_750
 illum 1
 Ka 0.2 0.2 0.2
 Kd 1.0 1.0 1.0
@@ -128,14 +128,14 @@ Kd 1.0 1.0 1.0
 Ks 1.0 1.0 1.0
 Ns 128.0
 
-newmtl silver_chasse_1168
+newmtl silver_chasse_1150
 illum 2
 Ka 0.9551 0.9551 0.9551
 Kd 0.6163 0.6163 0.6163
 Ks 0.3 0.3 0.3
 Ns 60.0
 
-newmtl flltgrey_sweethome3d_window_pane_on_rail_1_1217
+newmtl flltgrey_sweethome3d_window_pane_on_rail_1_1199
 illum 1
 Ka 0.5224 0.5224 0.5224
 Kd 0.8245 0.8245 0.8245
@@ -163,3 +163,87 @@ Ka 1.0 1.0 1.0
 Kd 1.0 1.0 1.0
 Ks 0.46875 0.46875 0.46875
 Ns 60.0
+
+newmtl black_frame_1333
+illum 2
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 0.5 0.5 0.5
+Ns 64.0
+
+newmtl lighttannew_table_1335
+illum 2
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 0.5 0.5 0.5
+Ns 64.0
+
+newmtl flbrown
+illum 1
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.0078125 0.0078125 0.0078125
+Ns 1.0
+
+newmtl archwhite2_bottom_1364
+illum 1
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.0078125 0.0078125 0.0078125
+Ns 1.0
+
+newmtl lighttan_desk_1365
+illum 2
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 1.0 1.0 1.0
+Ns 128.0
+
+newmtl silver_sweethome3d_opening_on_rail_1_handle_1368
+illum 2
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.46875 0.46875 0.46875
+Ns 60.0
+
+newmtl amber_montant_1388
+illum 2
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 0.46875 0.46875 0.46875
+Ns 60.0
+
+newmtl default
+illum 2
+Ka 0.4 0.4 0.4
+Kd 0.7102 0.702 0.6531
+Ks 0.3 0.3 0.3
+Ns 128.0
+
+newmtl flwhite1
+illum 1
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 0.0078125 0.0078125 0.0078125
+Ns 1.0
+
+newmtl white_panneaucommande_1618
+illum 2
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 0.46875 0.46875 0.46875
+Ns 60.0
+
+newmtl black_frame_1625
+illum 2
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 1.0 1.0 1.0
+Ns 128.0
+
+newmtl lighttannew_table_1627
+illum 2
+Ka 0.61960787 0.63529414 0.6392157
+Kd 0.61960787 0.63529414 0.6392157
+Ks 1.0 1.0 1.0
+Ns 128.0
