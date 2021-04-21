@@ -10,7 +10,7 @@
           </div>
           <div class="button-container">
             <button class="home-button" @click="learning">进入学习</button>
-            <a class="admin-button" href="https://www.baidu.com">管理员登录</a>
+            <a class="admin-button" href="http://localhost:8080">管理员登录</a>
           </div>
         </div>
       </div>
