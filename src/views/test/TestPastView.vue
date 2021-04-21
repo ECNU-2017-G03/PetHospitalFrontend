@@ -92,7 +92,7 @@ name: "TestPastView",
           this.testPaper = res.data
           for(let i = 0; i < res.data.questions.length; i++) {
             for(let j = 0; j < this.snapShot.length; j++) {
-              if (res.data.questions[i].qid === this.snapShot[j].qid) {
+              if (res.data.questions[i].id === this.snapShot[j].qid) {
                 this.testPaper.questions[i].choice = this.snapShot[j].choice
                 console.log(this.testPaper.questions[i].answer)
                 this.testPaper.questions[i].color = {A: '', B: '', C: ''}
