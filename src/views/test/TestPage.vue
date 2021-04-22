@@ -4,7 +4,6 @@
       <div class="card-outer">
         <div class="title card">{{ this.testName }}</div>
       </div>
-      <!--todo: 加考试剩余时间 -->
       <div class="card-right-side">
         <el-collapse >
           <el-collapse-item title="查看考试进度" name="2">

@@ -1,34 +1,35 @@
 <template>
-  <div>
-    <div class="container" id='container'></div>
+  <div class="page-body" v-loading="loading">
+    <div class="container" id='container' @mousewheel="scrollEvent"></div>
     <div>
       <div class="button-3d button-left el-icon-caret-left" @click="onCommand('left')"></div>
       <div class="button-3d button-top el-icon-caret-top" @click="onCommand('up')"></div>
       <div class="button-3d button-right el-icon-caret-right" @click="onCommand('right')"></div>
       <div class="button-3d button-bottom el-icon-caret-bottom" @click="onCommand('down')"></div>
+      <div class="button-3d button-high el-icon-top" @click="onCommand('high')"></div>
+      <div class="button-3d button-low el-icon-bottom" @click="onCommand('low')"></div>
     </div>
-    <div class="control-pane">
-<!--      <button @mousedown="onCommand('left')">left</button>-->
-<!--      <button @mousedown="onCommand('right')">right</button>-->
-<!--      <button @mousedown="onCommand('up')">up</button>-->
-<!--      <button @mousedown="onCommand('down')">down</button>-->
-      <button @mousedown="onCommand('high')">high</button>
-      <button @mousedown="onCommand('low')">low</button>
-      <div>x: {{ this.x }}</div>
-      <div>y: {{ this.y }}</div>
-      <div>z: {{ this.z }}</div>
-    </div>
+<!--    <div class="control-pane">-->
+<!--      <div>x: {{ this.x }}</div>-->
+<!--      <div>y: {{ this.y }}</div>-->
+<!--      <div>z: {{ this.z }}</div>-->
+<!--    </div>-->
+    <tour2-d class="floor-plane floor-plane-small" :class="planeSmall?'floor-plane-small':'floor-plane-large'"></tour2-d>
+    <div class="floor-plane-resize el-icon-full-screen" @click="planeSmall=!planeSmall"></div>
   </div>
 </template>
 
 <script>
 import * as THREE from 'three'
-//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+// import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
 import {MTLLoader} from 'three/examples/jsm/loaders/MTLLoader'
+import Tour2D from "@/views/tour/Tour2D";
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 export default {
   name: 'Panorama3D',
+  components: {Tour2D},
   data() {
     return {
       departmentId: this.$route.params.departmentId,
@@ -39,7 +40,9 @@ export default {
       camera: undefined,
       renderer: undefined,
       scene: undefined,
-      control: undefined
+      control: undefined,
+      loading: false,
+      planeSmall: true,
     }
   },
   created() {
@@ -67,23 +70,26 @@ export default {
           })
     },
     loadObjModel: function () {
-      const manager = new THREE.LoadingManager();
-      manager.onStart = function (url, itemsLoaded, itemsTotal) {
-        console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
-      };
+      this.loading = true
+      const manager = new THREE.LoadingManager()
+      manager.onStart = (url, itemsLoaded, itemsTotal) => {
+        console.log(`Started loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`)
+      }
 
-      manager.onLoad = function () {
-        console.log('Loading complete!');
-      };
+      manager.onLoad = () => {
+        console.log('Loading complete!')
+        this.loading = false
+      }
 
 
-      manager.onProgress = function (url, itemsLoaded, itemsTotal) {
-        console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
-      };
+      manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        console.log(`Started loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`)
+      }
 
-      manager.onError = function (url) {
-        console.log('There was an error loading ' + url);
-      };
+      manager.onError = (url) => {
+        console.log('There was an error loading ' + url)
+        this.loading = false
+      }
 
       let init = this.init
       let mtlLoader = new MTLLoader(manager)
@@ -98,6 +104,15 @@ export default {
                     .setMaterials(materials)
                     .load('petHospital.obj', init)
               })
+
+      // const loader = new GLTFLoader()
+      // loader
+      //     .setPath(`${process.env.BASE_URL}`)
+      //     .load('petHospital.glb', (gltf) => {
+      //       const model = gltf.scene
+      //       model.position.set(-1000, 0, -1000)
+      //       this.init(model)
+      //     })
     },
     init: function (objModel) {
       objModel.receiveShadow = true
@@ -170,12 +185,23 @@ export default {
       }
       this.camera.position.set(this.x, this.y, this.z)
       //this.renderer.render(this.scene, this.camera)
-    }
+    },
+    scrollEvent: function (e) {
+      if (e.deltaY > 0) {
+        this.onCommand('low')
+      } else if (e.deltaY < 0) {
+        this.onCommand('high')
+      }
+    },
   }
 }
 </script>
 
 <style scoped>
+.page-body {
+  min-height: calc(100vh - 120px);
+}
+
 .container {
   width: 100vw;
 }
@@ -216,5 +242,53 @@ export default {
 .button-bottom {
   bottom: 120px;
   left: 48vw;
+}
+
+.button-high {
+  bottom: 160px;
+  left: 30px;
+  font-size: x-large;
+  padding: 4px;
+}
+
+.button-low {
+  bottom: 120px;
+  left: 30px;
+  font-size: x-large;
+  padding: 4px
+}
+
+.floor-plane {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  transition-duration: 0.5s;
+  z-index: 100;
+}
+
+.floor-plane-small {
+  width: 336px;
+  height: 216px;
+}
+
+.floor-plane-large {
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 1120px;
+  height: 720px;
+}
+
+.floor-plane-resize {
+  color: white;
+  position: absolute;
+  top: 90px;
+  right: 30px;
+  cursor: pointer;
+  z-index: 120;
+}
+
+.floor-plane-resize:hover {
+  color: #2f93f7;
+  background-color: #ffffffaa;
 }
 </style>

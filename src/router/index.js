@@ -22,7 +22,6 @@ import TestHistory from '../views/test/TestHistory'
 import TestPastView from '../views/test/TestPastView'
 import Panorama3D from '@/views/tour/Panorama3D'
 import Model3D from '@/views/tour/Model3D'
-import Tour2D from '@/views/tour/Tour2D'
 
 
 Vue.use(VueRouter)
@@ -149,13 +148,6 @@ const routes = [
     path: '/testPage/:id/:testName',
     name: 'TestPage',
     component: TestPage,
-    meta: {
-      requireAuth: true,
-    }
-  },{
-    path: '/tour2d',
-    name: 'Tour2D',
-    component: Tour2D,
     meta: {
       requireAuth: true,
     }
