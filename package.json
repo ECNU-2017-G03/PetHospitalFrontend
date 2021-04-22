@@ -7,8 +7,13 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
+  "main": "background.js",
   "dependencies": {
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
@@ -36,14 +41,16 @@
     "babel-eslint": "^10.1.0",
     "chai": "^4.1.2",
     "chromedriver": "89",
-    "electron": "^12.0.2",
     "css-loader": "^5.2.1",
+    "electron": "^12.0.2",
+    "electron-devtools-installer": "^3.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "less": "^4.1.1",
     "less-loader": "^8.1.0",
     "style-loader": "^2.0.0",
     "vue-cli-plugin-axios": "^0.0.4",
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.6",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
