@@ -1,5 +1,5 @@
 <template>
-  <div class="page-body">
+  <div class="page-body" v-loading="loading">
     <div class="card-component">
       <div class="card-outer">
         <div class="title card">{{detail.name}}</div>
@@ -58,7 +58,8 @@
           members: [],
           description: undefined,
           tools: [],
-        }
+        },
+        loading: false,
       }
     },
     computed: {
@@ -71,6 +72,7 @@
     },
     methods: {
       getDetail: function () {
+        this.loading = true
         this.axios
             .get('/api/department/detail', {
               params: {
@@ -83,6 +85,9 @@
             .catch(err => {
               console.log(err)
               this.$message.error('您无权限访问此科室')
+            })
+            .finally(() => {
+              this.loading = false
             })
       },
 

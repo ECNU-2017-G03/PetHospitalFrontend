@@ -49,6 +49,9 @@
             .then(res => {
               this.departmentList = res.data.departmentList
             })
+            .catch(() => {
+              this.$message.error('获取科室列表失败')
+            })
       },
       clickDepartmentName: function (id) {
         this.$router.push(`/department/${id}`)

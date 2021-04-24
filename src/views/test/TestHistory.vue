@@ -6,7 +6,7 @@
             <div class="title card">考试记录</div>
           </div>
         <div class="card-outer">
-          <div class="card">
+          <div class="card" v-loading="loading">
             <el-table
                 :data="tableData"
                 border
@@ -40,7 +40,7 @@
               <el-table-column
                   label="操作">
                 <template slot-scope = "scope">
-                  <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.snapShot)">查看记录</el-button>
+                  <el-button type="primary" size="small" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.snapShot)">查看记录</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -86,7 +86,8 @@ export default {
       //   submitTime: '',
       //   snapShot: '',
       // }
-      ]
+      ],
+      loading: false,
     }
   },
   created() {
@@ -118,6 +119,7 @@ export default {
       this.$router.push(`/testPastView/${recordId}/${testName}/`+encodeURIComponent(shot))
     },
     getTestRecord: function() {
+      this.loading = true
       this.axios.get('/api/test/testRecord')
       .then(res => {
         this.dialogLoad = false
@@ -135,6 +137,9 @@ export default {
         this.loadMessage = '试卷记录获取失败'
         this.dialogLoad = true
       })
+      .finally(() => {
+          this.loading = false
+        })
 }
   },
 }
@@ -151,7 +156,6 @@ export default {
   text-align: center;
   font-size: x-large;
   line-height: 60px;
-  height: 40px;
 }
 .card-outer {
   padding: 20px;

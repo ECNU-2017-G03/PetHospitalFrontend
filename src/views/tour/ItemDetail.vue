@@ -5,7 +5,7 @@
         <div class="title card">{{name}}</div>
       </div>
       <div class="card-outer">
-        <div class="card">
+        <div class="card" v-loading="loading">
           <el-collapse v-model="activeNames">
             <el-collapse-item v-for="(item, index) in itemList" :name="index" :key="item.id">
               <template slot="title">
@@ -34,6 +34,7 @@
         name: '收费明细表',
         itemList: [],
         activeNames: [],
+        loading: false,
       }
     },
     created() {
@@ -41,11 +42,17 @@
     },
     methods: {
       getItems: function() {
+        this.loading = true
         this.axios
           .get('/api/item/list')
           .then(res => {
-            console.log(res)
             this.itemList = res.data
+          })
+          .catch(() => {
+            this.$message.error('获取项目列表失败')
+          })
+          .finally(() => {
+            this.loading = false
           })
       }
     }

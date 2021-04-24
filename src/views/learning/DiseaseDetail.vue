@@ -1,6 +1,6 @@
 <template>
   <div class="page-body">
-    <div class="disease-detail">
+    <div class="disease-detail" v-loading="loading">
       <div class="disease-detail-name">{{disease.name}}</div>
       <div class="disease-detail-description">{{disease.description}}</div>
     </div>
@@ -14,6 +14,7 @@ export default {
     return {
       diseaseId: this.$route.params.diseaseId,
       disease: {},
+      loading: false,
     }
   },
   created() {
@@ -21,6 +22,7 @@ export default {
   },
   methods: {
     queryDisease: function () {
+      this.loading = true
       this.axios
         .get('/api/learning/queryDisease', { params: { id: this.diseaseId }})
         .then(res => {
@@ -30,6 +32,9 @@ export default {
         .catch(err => {
           console.log(err)
           this.$message.error('获取病种信息失败')
+        })
+        .finally(() => {
+          this.loading = false
         })
     }
   }

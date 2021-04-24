@@ -21,7 +21,7 @@
         </el-collapse>
       </div>
       <div class="card-outer">
-        <div class="card">
+        <div class="card" v-loading="testPaperLoading">
           <el-form :model="testPaper">
             <template v-for="(item,index) in testPaper.questions">
               <el-form-item :label="`Q ${index+1}`" :key="index">
@@ -37,12 +37,11 @@
               </div>
             </el-form-item>
           </el-form>
-          <el-backtop target=".page-component__scroll .el-scrollbar__wrap" :bottom="100"></el-backtop>
-            <el-dialog
-              title="试卷提交"
-              :visible.sync="dialogVisible"
-              width="30%"
-              >
+          <el-dialog
+            title="试卷提交"
+            :visible.sync="dialogVisible"
+            width="30%"
+            >
             <span>{{message}}</span>
             <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取消</el-button>
@@ -128,9 +127,11 @@ export default {
         testId: '',
         startTime: '',
         endTime: '',
-    },
-    endTime:'',
-  }},
+      },
+      endTime:'',
+      testPaperLoading: false,
+    }
+  },
   created() {
     this.getTestInfo()
   },
@@ -173,6 +174,9 @@ export default {
             this.loadMessage = '试卷加载失败'
             this.dialogLoad = true
           })
+          .finally(() => {
+      this.testPaperLoading = false
+    })
     },
     cancel() {
       this.realSubmit = false
@@ -289,6 +293,7 @@ export default {
   margin-bottom: 10px;
   margin-top: 5px;
 }
+
 .card-right-side {
   background-color: white;
   color: #34495e;
@@ -302,6 +307,7 @@ export default {
   top: 150px;
   right: 12px;
 }
+
 .progress {
   margin-top: 10px;
 }
@@ -310,12 +316,13 @@ export default {
   text-align: center;
   margin-left: 60px;
 }
+
 .title {
   text-align: center;
   font-size: x-large;
   line-height: 60px;
-  height: 40px;
 }
+
 .card-component {
   max-width: 1100px;
   width: 100%;

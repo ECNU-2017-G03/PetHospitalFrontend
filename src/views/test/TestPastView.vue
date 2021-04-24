@@ -5,7 +5,7 @@
         <div class="title card">{{ this.testName }}</div>
       </div>
       <div class="card-outer">
-        <div class="card">
+        <div class="card" v-loading="loading">
           <el-form :model="testPaper">
             <template v-for="(item,index) in testPaper.questions">
               <el-form-item :label="`Q${index+1}`" :key="index">
@@ -76,7 +76,8 @@ name: "TestPastView",
         testId: '',
         startTime: '',
         endTime: '',
-      }
+      },
+      loading: false,
     }
   },
   created() {
@@ -116,8 +117,9 @@ name: "TestPastView",
         return 'red'
       }
     },
-      findTest: function() {
-        this.axios.get('/api/test/pastTest',{
+    findTest: function() {
+      this.loading = true
+      this.axios.get('/api/test/pastTest',{
         params: {
           id: this.quizId,
         }}).then(res => {
@@ -176,6 +178,9 @@ name: "TestPastView",
           this.loadMessage = "测试历史加载失败"
           this.dialogLoad = true
         })
+          .finally(() => {
+        this.loading = false
+      })
     }
   }
 }
@@ -222,7 +227,6 @@ name: "TestPastView",
   text-align: center;
   font-size: x-large;
   line-height: 60px;
-  height: 40px;
 }
 .card-right-side {
   color: #34495e;

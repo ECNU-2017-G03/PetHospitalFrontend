@@ -15,7 +15,7 @@
           </el-input>
         </el-form-item>
         <el-form-item class="form-button">
-          <el-button type="primary" @click="changePassword" :loading="LoggingIn">修改密码</el-button>
+          <el-button type="primary" @click="changePassword" :loading="Submitting">修改密码</el-button>
           <el-button @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -54,7 +54,7 @@
           oldPassword: '',
           newPassword: '',
         },
-        LoggingIn: false,
+        Submitting: false,
         rules: {
           oldPassword: [
             { validator: checkPassword, trigger: ['blur'] }
@@ -70,7 +70,7 @@
     },
     methods: {
       changePassword: function() {
-        this.LoggingIn = true
+        this.Submitting = true
         this.$refs['userForm'].validate((valid) => {
           if (valid) {
             this.axios.put('/api/user/changePassword', this.userForm)
@@ -83,10 +83,10 @@
                   this.$message.error('修改密码失败')
                 })
                 .finally(() => {
-                  this.LoggingIn = false
+                  this.Submitting = false
                 })
           } else {
-            this.LoggingIn = false
+            this.Submitting = false
           }
         })
       },

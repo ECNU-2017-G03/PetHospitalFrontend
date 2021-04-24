@@ -1,10 +1,10 @@
 <template>
   <div class="page-body">
-    <div class="card-component">
+    <div class="card-component" v-loading="loading">
       <div class="card-outer">
         <div class="title card">病例详情</div>
       </div>
-      <div class="two-card-component info-img">
+      <div class="two-card-component info-img" >
         <div class="one-in-two-card">
           <div class="one-card-outer card-outer">
             <div class="one-card card">
@@ -85,7 +85,8 @@ export default {
       diseaseCaseId: this.$route.params.diseaseCaseId,
       diseaseCase: {},
       diseaseNameList: [],
-      petInfo: {}
+      petInfo: {},
+      loading: false,
     }
   },
   created() {
@@ -93,6 +94,7 @@ export default {
   },
   methods: {
     queryDiseaseCase: function () {
+      this.loading = true
       this.axios
         .get('/api/learning/queryDiseaseCase', { params: { id: this.diseaseCaseId }})
         .then(res => {
@@ -104,6 +106,9 @@ export default {
         .catch(err => {
           console.log(err)
           this.$message.error('获取病例信息失败')
+        })
+        .finally(() => {
+          this.loading = false
         })
     }
   }

@@ -97,6 +97,7 @@
     text-align: center;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 7px 10px 0 rgb(0 0 0 / 12%);
     position: absolute;
+    user-select: none;
   }
 
   .title {

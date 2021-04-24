@@ -79,6 +79,9 @@
             this.actors = actorList
             this.dialogVisible = true
           })
+          .catch(() => {
+            this.$message.error('获取角色失败')
+          })
       },
     }
   }

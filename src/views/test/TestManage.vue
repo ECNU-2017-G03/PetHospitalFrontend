@@ -6,7 +6,7 @@
           <div class="title card">考试列表</div>
         </div>
         <div class="card-outer">
-          <div class="card">
+          <div class="card" v-loading="loading">
             <el-table
                 :data="tableData"
                 border
@@ -27,7 +27,7 @@
               <el-table-column
                   label="操作">
                 <template slot-scope = "scope">
-                   <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
+                   <el-button type="primary" size="small" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -59,6 +59,7 @@ name: 'TestManage',
       loadMessage: '',
       dialogLoad: false,
       retryLoadCount: 0,
+      loading: false
     }
   },
 created() {
@@ -120,6 +121,7 @@ created() {
       return result
     },
     getTestReady: function () {
+      this.loading = true
       this.axios.get('/api/test/enterTestFunc').then(res => {
         this.tableData = res.data['testInfo']
         console.log(res.data)
@@ -135,6 +137,9 @@ created() {
         this.loadMessage = '测试记录获取失败'
         this.dialogLoad = true
       })
+      .finally(() => {
+        this.loading = false
+        })
     },
     toHistory: function () {
       this.$router.push('/testHistory')
