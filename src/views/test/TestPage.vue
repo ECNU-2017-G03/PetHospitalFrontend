@@ -73,6 +73,7 @@ export default {
   name: "TestPage",
   data() {
     return {
+      testStartTime:'',
       totalQuestion:'',
       answeredQuestion:'',
       retryCount: 0,
@@ -138,7 +139,6 @@ export default {
       this.percentage = 0
       this.answeredQuestion = 0
       this.testAnswer.testId = this.testPaper.testId
-      this.testAnswer.startTime = this.testPaper.startTime
       this.testAnswer.endTime = this.testPaper.endTime
       for (let item of this.testPaper.questions) {
         let q = {
@@ -147,6 +147,9 @@ export default {
           score: item.score,
         }
         this.testAnswer.questions.push(q)
+        this.testStartTime = new Date().toISOString()
+        console.log("testSTART")
+        console.log(this.testStartTime)
       }
     })
   },
@@ -210,7 +213,6 @@ export default {
         console.log("enter if")
         this.dialogSubmit = true
         this.message = "仍有题目未作答，是否确认提交？"
-
       } else {
         if (this.realSubmit === true) {
           for (let i = 0; i < this.testAnswer.questions.length; i++) {
@@ -219,6 +221,7 @@ export default {
             }
           }
         }
+        this.testAnswer.startTime = this.testStartTime
         this.testAnswer.quizId = this.testPaper.quizId
         this.axios.post('/api/test/submitTest', this.testAnswer)
             .then(res => {
@@ -233,28 +236,6 @@ export default {
       }
       console.log(this.testAnswer)
       },
-    // syncSystemTime() {
-    //   this.timeTimer = setInterval(() => {
-    //     this.syncData.systemTime = new Date((new Date()).getTime() + this.syncData.timeDiff)
-    //   }, 50)
-    // },
-    clearTimeTimer() {
-      if (this.timeTimer) {
-        clearInterval(this.timeTimer)
-      }
-    },
-    getTimeWithSeconds(t) {
-      if (!t) {
-        return null
-      }
-      let h = t.getHours()
-      let m = t.getMinutes()
-      let s = t.getSeconds()
-      h = h < 10 ? `0${h}` : h
-      m = m < 10 ? `0${m}` : m
-      s = s < 10 ? `0${s}` : s
-      return `${h}:${m}:${s}`
-    },
   }
 }
 </script>
