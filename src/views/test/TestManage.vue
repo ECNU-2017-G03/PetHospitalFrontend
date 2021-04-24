@@ -68,8 +68,27 @@ created() {
           confirmButtonText: '确定',
         });
       } else {
-        this.$router.push(`/testPage/${id}/${testName}`)
+        let r = this.checkTestValid(id)
+        console.log(r)
+        if(r) {
+          this.$router.push(`/testPage/${id}/${testName}`)
+        } else {
+          console.log("test done")
+        }
       }
+    },
+    checkTestValid: async function(quizId) {
+      let result = false
+      await this.axios.get('/api/test/checkTestValid', {
+        params: {
+          id: quizId,
+        }
+      }).then(res => {
+        result = res.data
+        console.log(res.data)
+      })
+      console.log(result)
+      return result
     },
     getTestReady: function () {
       this.axios.get('/api/test/enterTestFunc').then(res => {
