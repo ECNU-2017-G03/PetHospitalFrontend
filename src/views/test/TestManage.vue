@@ -22,7 +22,7 @@
               </el-table-column>
               <el-table-column
                   prop="duration"
-                  label="考试时长">
+                  label="考试时长(分钟)">
               </el-table-column>
               <el-table-column
                   label="操作">
