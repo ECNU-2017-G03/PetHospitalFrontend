@@ -31,6 +31,17 @@
                 </template>
               </el-table-column>
             </el-table>
+            <el-dialog
+                title="测试记录"
+                :visible.sync="dialogLoad"
+                width="30%"
+            >
+              <span>{{loadMessage}}</span>
+              <span slot="footer" class="dialog-footer">
+              <el-button v-if="loadMessage === '测试记录获取失败'" type="primary" @click="retryLoad">重试</el-button>
+              <el-button @click="backToMainPage">取消</el-button>
+            </span>
+            </el-dialog>
           </div>
         </div>
       </div>
@@ -44,11 +55,13 @@ export default {
 name: 'TestManage',
   data() {
     return {
-      tableData: []
+      tableData: [],
+      loadMessage: '',
+      dialogLoad: false,
+      retryLoadCount: 0,
     }
   },
 created() {
-    console.log("created")
     this.getTestReady()
   },
   computed: {
@@ -60,21 +73,37 @@ created() {
     enterTestPage: function (id, testName, startTime) {
       let date = new Date()
       let dateStart = Date.parse(startTime)
-      console.log(startTime)
-      console.log(date)
-      console.log(dateStart)
       if(date < dateStart) {
         this.$alert('未到考试时间，不能进入考试！', '提升', {
           confirmButtonText: '确定',
         });
       } else {
         let r = this.checkTestValid(id)
-        console.log(r)
         if(r) {
           this.$router.push(`/testPage/${id}/${testName}`)
         } else {
           console.log("test done")
         }
+      }
+    },
+    backToMainPage: function() {
+      this.$router.push('/main')
+    },
+    retryLoad: function() {
+      this.retryLoadCount+= 1
+      if(this.retryLoadCount <= 3) {
+        this.getTestReady()
+        const loading = this.$loading({
+          lock: true,
+          text: '重新获取中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 5000);
+      }else {
+        this.loadMessage = '重复加载次数超过限制，加载失败'
       }
     },
     checkTestValid: async function(quizId) {
@@ -100,6 +129,11 @@ created() {
           // item.startTimeDisplay = item.startTime.substring(0,10) + ' ' + item.startTime.substring(11, 19)
           item.duration =Math.ceil((new Date(item.endTime).getTime()- new Date(item.startTime) )/ (1000*60))
         }
+      })
+      .catch(err => {
+        console.log(err)
+        this.loadMessage = '测试记录获取失败'
+        this.dialogLoad = true
       })
     },
     toHistory: function () {

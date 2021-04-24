@@ -61,6 +61,17 @@
             <el-button type="primary"  @click="realTry">确定</el-button>
             </span>
           </el-dialog>
+          <el-dialog
+              title="试卷加载"
+              :visible.sync="dialogLoad"
+              width="30%"
+          >
+            <span>{{loadMessage}}</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button v-if="loadMessage === '试卷加载失败'" type="primary" @click="retryLoad">重试</el-button>
+              <el-button @click="backToMainPage">取消</el-button>
+            </span>
+          </el-dialog>
         </div>
       </div>
     </div>
@@ -73,6 +84,9 @@ export default {
   name: "TestPage",
   data() {
     return {
+      retryLoadCount:0,
+      loadMessage:'',
+      dialogLoad:false,
       testStartTime:'',
       totalQuestion:'',
       answeredQuestion:'',
@@ -118,43 +132,48 @@ export default {
     endTime:'',
   }},
   created() {
-    this.endTime = Date.parse("2022-09-02 10:11:12")
-    this.axios.get('/api/test/enterTest', {
-      params: {
-        id: this.id,
-      }
-    }).then(res => {
-      console.log(res.data)
-      this.testPaper = res.data
-      this.testAnswer = {
-        questions:[],
-        quizId: '',
-        testId: '',
-        startTime: '',
-        endTime: '',
-      }
-      this.endTime = Date.parse(this.testPaper.endTime)
-      console.log(this.endTime)
-      this.totalQuestion = this.testPaper.questions.length
-      this.percentage = 0
-      this.answeredQuestion = 0
-      this.testAnswer.testId = this.testPaper.testId
-      this.testAnswer.endTime = this.testPaper.endTime
-      for (let item of this.testPaper.questions) {
-        let q = {
-          choice: '',
-          qid: item.id,
-          score: item.score,
-        }
-        this.testAnswer.questions.push(q)
-        this.testStartTime = new Date().toISOString()
-        console.log("testSTART")
-        console.log(this.testStartTime)
-      }
-    })
+    this.getTestInfo()
   },
   components: {FlipDown},
   methods:{
+    getTestInfo() {
+      this.endTime = Date.parse("2022-09-02 10:11:12")
+      this.axios.get('/api/test/enterTest', {
+        params: {
+          id: this.id,
+        }
+      }).then(res => {
+        console.log(res.data)
+        this.testPaper = res.data
+        this.testAnswer = {
+          questions:[],
+          quizId: '',
+          testId: '',
+          startTime: '',
+          endTime: '',
+        }
+        this.endTime = Date.parse(this.testPaper.endTime)
+        console.log(this.endTime)
+        this.totalQuestion = this.testPaper.questions.length
+        this.percentage = 0
+        this.answeredQuestion = 0
+        this.testAnswer.testId = this.testPaper.testId
+        this.testAnswer.endTime = this.testPaper.endTime
+        for (let item of this.testPaper.questions) {
+          let q = {
+            choice: '',
+            qid: item.id,
+            score: item.score,
+          }
+          this.testAnswer.questions.push(q)
+          this.testStartTime = new Date().toISOString()
+        }
+      }).catch(err => {
+            console.log(err)
+            this.loadMessage = '试卷加载失败'
+            this.dialogLoad = true
+          })
+    },
     cancel() {
       this.realSubmit = false
       this.dialogSubmit = false
@@ -175,13 +194,14 @@ export default {
       });
       setTimeout(() => {
         loading.close();
-      }, 2000);
+      }, 5000);
     },
     goToHistory() {
       this.$router.push('/testHistory')
     },
     retry: function () {
       this.retryCount += 1
+      this.dialogVisible = false
       if(this.retryCount < 3) {
         this.submitTest()
         const loading = this.$loading({
@@ -195,6 +215,26 @@ export default {
         }, 2000);
       } else {
         this.message = '重复提交次数超过限制，提交失败'
+      }
+    },
+    backToMainPage: function() {
+      this.$router.push('/main')
+    },
+    retryLoad: function() {
+      this.retryLoadCount+= 1
+      if(this.retryLoadCount <= 3) {
+        this.getTestInfo()
+        const loading = this.$loading({
+          lock: true,
+          text: '重新获取中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 5000);
+      }else {
+        this.loadMessage = '重复加载次数超过限制，加载失败'
       }
     },
     changeProgress: function() {
@@ -233,8 +273,12 @@ export default {
                 this.message = '提交失败！'
               }
             })
+        .catch(err => {
+          console.log(err)
+          this.message = '提交失败！'
+          this.dialogVisible = true
+        })
       }
-      console.log(this.testAnswer)
       },
   }
 }

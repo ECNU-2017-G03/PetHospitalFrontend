@@ -44,6 +44,17 @@
                 </template>
               </el-table-column>
             </el-table>
+            <el-dialog
+                title="试卷记录"
+                :visible.sync="dialogLoad"
+                width="30%"
+            >
+              <span>{{loadMessage}}</span>
+              <span slot="footer" class="dialog-footer">
+              <el-button v-if="loadMessage === '试卷记录获取失败'" type="primary" @click="retryLoad">重试</el-button>
+              <el-button @click="backToMainPage">取消</el-button>
+            </span>
+            </el-dialog>
           </div>
         </div>
       </div>
@@ -56,6 +67,9 @@ export default {
   name: "TestHistory",
   data() {
     return {
+      loadMessage:'',
+      dialogLoad: false,
+      retryLoadCount: 0,
       tableData: [
       //     {
       //   recordId: '',
@@ -79,29 +93,47 @@ export default {
     this.getTestRecord()
   },
   methods: {
+    backToMainPage: function() {
+      this.$router.push('/main')
+    },
+    retryLoad: function() {
+      this.retryLoadCount+= 1
+      if(this.retryLoadCount <= 3) {
+        this.getTestRecord()
+        const loading = this.$loading({
+          lock: true,
+          text: '重新获取中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 5000);
+      }else {
+        this.loadMessage = '重复加载次数超过限制，加载失败'
+      }
+    },
     enterTestPage: function (recordId, testName, snapShot) {
-      console.log(recordId)
-      console.log(testName)
-      console.log(snapShot)
       let shot = JSON.stringify(snapShot)
       this.$router.push(`/testPastView/${recordId}/${testName}/`+encodeURIComponent(shot))
     },
     getTestRecord: function() {
       this.axios.get('/api/test/testRecord')
       .then(res => {
-        console.log(res.data)
+        this.dialogLoad = false
         this.tableData = res.data['records']
-        console.log(res.data['records'].length)
         for (let i = 0; i < this.tableData.length; i++) {
           let item = this.tableData[i]
           item.duration = Math.ceil((new Date(item.endTime).getTime() - new Date(item.startTime).getTime())/(1000*60))
           item.costTime = Math.ceil((new Date(item.submitTime).getTime() - new Date(item.startTime).getTime())/(1000*60))
           item.testName = '虚拟宠物医院考试 ' + item.startTime.substring(0,10)
           item.startTimeDisplay = (new Date(item.startTime)).toLocaleString()
-          console.log(item.duration)
-          console.log(item.costTime)
-          console.log(item.testName)
         }
+      })
+      .catch(err => {
+        console.log(err)
+        this.loadMessage = '试卷记录获取失败'
+        this.dialogLoad = true
       })
 }
   },

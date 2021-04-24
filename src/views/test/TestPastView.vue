@@ -19,6 +19,17 @@
             </el-form-item>
             </template>
           </el-form>
+          <el-dialog
+              title="试卷历史"
+              :visible.sync="dialogLoad"
+              width="30%"
+          >
+            <span>{{loadMessage}}</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button v-if="loadMessage === '测试历史加载失败'" type="primary" @click="retryLoad">重试</el-button>
+              <el-button @click="backToMainPage">取消</el-button>
+            </span>
+          </el-dialog>
         </div>
       </div>
       <div><el-backtop target=".page-component__scroll .el-scrollbar__wrap" :bottom="100"></el-backtop></div>
@@ -35,6 +46,9 @@ name: "TestPastView",
         {'color':'red','name':'红色'},
          {'color':'blue','name':'蓝色'},
     ],
+      loadMessage: '',
+      retryCount: 0,
+      dialogLoad: false,
     quizId: this.$route.params.recordId,
      testName: this.$route.params.testName,
      snapShot: this.$route.params.snapShot,
@@ -66,14 +80,33 @@ name: "TestPastView",
     }
   },
   created() {
-  console.log(this.quizId)
-    console.log(this.testName)
-    var shot = decodeURIComponent(this.$route.params.snapShot);
+    let shot = decodeURIComponent(this.$route.params.snapShot);
     this.snapShot = JSON.parse(shot);
-    console.log(this.snapShot.length)
     this.findTest();
   },
   methods :{
+    backToMainPage: function() {
+      this.$router.push('/main')
+    },
+    retryLoad: function() {
+      this.retryLoadCount+= 1
+      if(this.retryLoadCount <= 3) {
+        let shot = decodeURIComponent(this.$route.params.snapShot);
+        this.snapShot = JSON.parse(shot);
+        this.findTest();
+        const loading = this.$loading({
+          lock: true,
+          text: '重新获取中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        setTimeout(() => {
+          loading.close();
+        }, 5000);
+      }else {
+        this.loadMessage = '重复加载次数超过限制，加载失败'
+      }
+    },
     addOptionColor: function(color) {
       if (color === 1) {
         return 'green'
@@ -89,6 +122,7 @@ name: "TestPastView",
           id: this.quizId,
         }}).then(res => {
           console.log(res.data)
+          this.dialogLoad = false
           this.testPaper = res.data
           for(let i = 0; i < res.data.questions.length; i++) {
             for(let j = 0; j < this.snapShot.length; j++) {
@@ -137,6 +171,11 @@ name: "TestPastView",
             }
         }
       })
+        .catch(err => {
+          console.log(err)
+          this.loadMessage = "测试历史加载失败"
+          this.dialogLoad = true
+        })
     }
   }
 }
