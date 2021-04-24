@@ -184,6 +184,7 @@ export default {
         this.y -= 200
       }
       this.camera.position.set(this.x, this.y, this.z)
+      console.log(this.x, this.y, this.z)
       //this.renderer.render(this.scene, this.camera)
     },
     scrollEvent: function (e) {
@@ -273,7 +274,7 @@ export default {
 
 .floor-plane-large {
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: calc(100vh - 140px);
   width: 1120px;
   height: 720px;
 }

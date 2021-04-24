@@ -78,7 +78,7 @@
               })
               .catch(err => {
                 console.log(err)
-                this.$message.error('登录失败')
+                this.$message.error('登录失败，请重试')
               })
               .finally(() => {
                 this.LoggingIn = false

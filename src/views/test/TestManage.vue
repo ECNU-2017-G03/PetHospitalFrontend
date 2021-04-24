@@ -6,7 +6,7 @@
           <div class="title card">考试列表</div>
         </div>
         <div class="card-outer">
-          <div class="card">
+          <div class="card" v-loading="loading">
             <el-table
                 :data="tableData"
                 border
@@ -27,7 +27,7 @@
               <el-table-column
                   label="操作">
                 <template slot-scope = "scope">
-                   <el-button type="primary" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
+                   <el-button type="primary" size="small" @click="enterTestPage(scope.row.quizId, scope.row.testName, scope.row.startTime)">开始考试</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -44,11 +44,11 @@ export default {
 name: 'TestManage',
   data() {
     return {
-      tableData: []
+      tableData: [],
+      loading: false
     }
   },
-created() {
-    console.log("created")
+  created() {
     this.getTestReady()
   },
   computed: {
@@ -91,6 +91,7 @@ created() {
       return result
     },
     getTestReady: function () {
+      this.loading = true
       this.axios.get('/api/test/enterTestFunc').then(res => {
         this.tableData = res.data['testInfo']
         console.log(res.data)
@@ -100,6 +101,9 @@ created() {
           // item.startTimeDisplay = item.startTime.substring(0,10) + ' ' + item.startTime.substring(11, 19)
           item.duration =Math.ceil((new Date(item.endTime).getTime()- new Date(item.startTime) )/ (1000*60))
         }
+      })
+      .finally(() => {
+        this.loading = false
       })
     },
     toHistory: function () {
