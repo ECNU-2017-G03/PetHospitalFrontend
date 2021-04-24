@@ -16,6 +16,7 @@
               <div :class="addOptionColor(item.color.A)">A: {{item.options.A}}</div>
                 <div :class="addOptionColor(item.color.B)" >B: {{item.options.B}}</div>
                 <div :class="addOptionColor(item.color.C)" >C: {{item.options.C}}</div>
+                <div :class="addOptionColor(item.color.D)" >D: {{item.options.D}}</div>
             </el-form-item>
             </template>
           </el-form>
@@ -131,15 +132,17 @@ name: "TestPastView",
               if (res.data.questions[i].id === this.snapShot[j].qid) {
                 this.testPaper.questions[i].choice = this.snapShot[j].choice
                 console.log(this.testPaper.questions[i].answer)
-                this.testPaper.questions[i].color = {A: '', B: '', C: ''}
+                this.testPaper.questions[i].color = {A: '', B: '', C: '',D: ''}
                 this.testPaper.questions[i].point = 0
 
                 if (this.testPaper.questions[i].answer === 'A') {
                   this.testPaper.questions[i].color.A = 1
                 } else if (this.testPaper.questions[i].answer === 'B') {
                   this.testPaper.questions[i].color.B = 1
-                } else {
+                } else if(this.testPaper.questions[i].answer == 'C'){
                   this.testPaper.questions[i].color.C = 1
+                } else {
+                  this.testPaper.questions[i].color.D = 1
                 }
 
                 if (this.testPaper.questions[i].choice === 'A') {
@@ -168,6 +171,15 @@ name: "TestPastView",
                   }
                 } else if(this.testPaper.questions[i].answer !== 'C'){
                   this.testPaper.questions[i].color.C = 0
+                }
+                if (this.testPaper.questions[i].choice === 'D') {
+                  if (this.testPaper.questions[i].answer !== 'D') {
+                    this.testPaper.questions[i].color.D = -1
+                  } else {
+                    this.testPaper.questions[i].point = this.testPaper.questions[i].score
+                  }
+                } else if(this.testPaper.questions[i].answer !== 'D'){
+                  this.testPaper.questions[i].color.D = 0
                 }
               }
             }

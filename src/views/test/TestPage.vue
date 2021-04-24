@@ -29,6 +29,7 @@
                 <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="A">{{item.options.A}}</el-radio>
                 <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="B">{{item.options.B}}</el-radio>
                 <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="C">{{item.options.C}}</el-radio>
+                <el-radio @change="changeProgress" v-model="testAnswer.questions[index].choice" label="D">{{item.options.D}}</el-radio>
               </el-form-item>
             </template>
             <el-form-item>
@@ -69,6 +70,16 @@
             <span slot="footer" class="dialog-footer">
               <el-button v-if="loadMessage === '试卷加载失败'" type="primary" @click="retryLoad">重试</el-button>
               <el-button @click="backToMainPage">取消</el-button>
+            </span>
+          </el-dialog>
+          <el-dialog
+              title="提交失败"
+              width="30%"
+              :visible.sync="result"
+            >
+          <span>试卷不能重复提交！</span>
+          <span slot="footer" class="dialog-footer">
+              <el-button type="warning" @click="backToMainPage">确定</el-button>
             </span>
           </el-dialog>
         </div>
@@ -130,6 +141,7 @@ export default {
       },
       endTime:'',
       testPaperLoading: false,
+      result: false
     }
   },
   created() {
@@ -188,7 +200,6 @@ export default {
       this.dialogSubmit = false
     },
     exceedToSubmit() {
-      console.log("excceeeeeeed")
       this.submitTest()
       const loading = this.$loading({
         lock: true,
@@ -252,7 +263,7 @@ export default {
       this.answeredQuestion = count
       this.percentage = Math.round(this.answeredQuestion / this.totalQuestion * 100)
     },
-    submitTest: function() {
+    submitTest: async function() {
       if (this.answeredQuestion < this.totalQuestion && this.realSubmit === false) {
         console.log("enter if")
         this.dialogSubmit = true
@@ -267,21 +278,33 @@ export default {
         }
         this.testAnswer.startTime = this.testStartTime
         this.testAnswer.quizId = this.testPaper.quizId
-        this.axios.post('/api/test/submitTest', this.testAnswer)
-            .then(res => {
-              console.log(res.data)
-              this.dialogVisible = true
-              if (res.data === 'OK') {
-                this.message = '提交成功！'
-              } else {
-                this.message = '提交失败！'
-              }
-            })
-        .catch(err => {
-          console.log(err)
-          this.message = '提交失败！'
-          this.dialogVisible = true
+        await this.axios.get('/api/test/checkTestValid', {
+          params: {
+            id: this.testAnswer.quizId
+          }
+        }).then(res => {
+          this.result = !res.data
+          console.log(res.data)
         })
+        if (!this.result) {
+          this.axios.post('/api/test/submitTest', this.testAnswer)
+              .then(res => {
+                console.log(res.data)
+                this.dialogVisible = true
+                if (res.data === 'OK') {
+                  this.message = '提交成功！'
+                } else {
+                  this.message = '提交失败！'
+                }
+              })
+              .catch(err => {
+                console.log(err)
+                this.message = '提交失败！'
+                this.dialogVisible = true
+              })
+        }else {
+          console.log(this.result)
+        }
       }
       },
   }
