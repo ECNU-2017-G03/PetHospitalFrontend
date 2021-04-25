@@ -150,6 +150,7 @@ export default {
   components: {FlipDown},
   methods:{
     getTestInfo() {
+      this.testPaperLoading = true
       this.endTime = Date.parse("2022-09-02 10:11:12")
       this.axios.get('/api/test/enterTest', {
         params: {
@@ -182,13 +183,13 @@ export default {
           this.testStartTime = new Date().toISOString()
         }
       }).catch(err => {
-            console.log(err)
-            this.loadMessage = '试卷加载失败'
-            this.dialogLoad = true
-          })
-          .finally(() => {
-      this.testPaperLoading = false
-    })
+        console.log(err)
+        this.loadMessage = '试卷加载失败'
+        this.dialogLoad = true
+      })
+      .finally(() => {
+        this.testPaperLoading = false
+      })
     },
     cancel() {
       this.realSubmit = false

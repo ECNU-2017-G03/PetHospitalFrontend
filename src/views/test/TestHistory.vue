@@ -51,9 +51,9 @@
             >
               <span>{{loadMessage}}</span>
               <span slot="footer" class="dialog-footer">
-              <el-button v-if="loadMessage === '试卷记录获取失败'" type="primary" @click="retryLoad">重试</el-button>
-              <el-button @click="backToMainPage">取消</el-button>
-            </span>
+                <el-button v-if="loadMessage === '试卷记录获取失败'" type="primary" @click="retryLoad">重试</el-button>
+                <el-button @click="backToMainPage">取消</el-button>
+              </span>
             </el-dialog>
           </div>
         </div>
@@ -138,8 +138,8 @@ export default {
         this.dialogLoad = true
       })
       .finally(() => {
-          this.loading = false
-        })
+        this.loading = false
+      })
 }
   },
 }

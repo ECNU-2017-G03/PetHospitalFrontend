@@ -14,7 +14,12 @@
 <!--      <div>y: {{ this.y }}</div>-->
 <!--      <div>z: {{ this.z }}</div>-->
 <!--    </div>-->
-    <tour2-d class="floor-plane floor-plane-small" :class="planeSmall?'floor-plane-small':'floor-plane-large'"></tour2-d>
+    <tour2-d
+        class="floor-plane floor-plane-small"
+        :class="planeSmall?'floor-plane-small':'floor-plane-large'"
+        @changePosition="changePosition"
+    >
+    </tour2-d>
     <div
         class="floor-plane-resize el-icon-full-screen"
         :class="planeSmall?'floor-plane-resize-small':'floor-plane-resize-large'"
@@ -199,6 +204,11 @@ export default {
         this.onCommand('high')
       }
     },
+    changePosition: function (x, z) {
+      this.x = x
+      this.z = z + 700
+      this.camera.position.set(this.x, this.y, this.z)
+    }
   }
 }
 </script>

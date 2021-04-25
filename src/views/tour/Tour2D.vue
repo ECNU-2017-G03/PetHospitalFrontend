@@ -67,6 +67,7 @@
         :y="room.y"
         :width="room.width"
         :height="room.height"
+        @click="roomClick(room)"
     >
       <rect width="100%" height="100%" stroke="transparent" fill="transparent" stroke-width="5">
         <animate attributeName="fill" values="#ffffff88" begin="mouseover" end="mouseleave"/>
@@ -272,6 +273,13 @@
         ]
       }
     },
+    methods: {
+      roomClick: function (room) {
+        let x = room.x + room.height / 2
+        let y = room.y + room.width / 2
+        this.$emit('changePosition', x * 2.5, y * 2.5)
+      }
+    }
   }
 </script>
 

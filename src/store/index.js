@@ -24,6 +24,7 @@ export default new Vuex.Store({
       state.token = null
       localStorage.removeItem('Token')
       localStorage.removeItem('UserName')
+      state.firstToMain = false
     },
     saveUserName (state, name) {
       localStorage.setItem('UserName', name)

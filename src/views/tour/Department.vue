@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="card-outer">
+      <div class="card-outer" v-if="actor!=='receptionist'">
         <div class="card">
           <div class="card-title">科室器材</div>
           <div v-for="tool in detail.tools" :key="tool.id" class="tool-card">
