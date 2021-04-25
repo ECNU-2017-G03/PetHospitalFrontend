@@ -15,7 +15,12 @@
 <!--      <div>z: {{ this.z }}</div>-->
 <!--    </div>-->
     <tour2-d class="floor-plane floor-plane-small" :class="planeSmall?'floor-plane-small':'floor-plane-large'"></tour2-d>
-    <div class="floor-plane-resize el-icon-full-screen" @click="planeSmall=!planeSmall"></div>
+    <div
+        class="floor-plane-resize el-icon-full-screen"
+        :class="planeSmall?'floor-plane-resize-small':'floor-plane-resize-large'"
+        @click="planeSmall=!planeSmall"
+    >
+    </div>
   </div>
 </template>
 
@@ -263,7 +268,7 @@ export default {
   position: absolute;
   top: 80px;
   right: 20px;
-  transition-duration: 0.5s;
+  transition-duration: 0.7s;
   z-index: 100;
 }
 
@@ -274,18 +279,28 @@ export default {
 
 .floor-plane-large {
   max-width: 90vw;
-  max-height: calc(100vh - 140px);
+  max-height: calc(100vh - 150px);
+  display: inline-block;
   width: 1120px;
   height: 720px;
+  right: 5vw;
 }
 
 .floor-plane-resize {
   color: white;
   position: absolute;
   top: 90px;
-  right: 30px;
   cursor: pointer;
   z-index: 120;
+  transition-duration: 0.7s;
+}
+
+.floor-plane-resize-small {
+  right: 30px;
+}
+
+.floor-plane-resize-large {
+  right: calc(5vw + 10px);
 }
 
 .floor-plane-resize:hover {

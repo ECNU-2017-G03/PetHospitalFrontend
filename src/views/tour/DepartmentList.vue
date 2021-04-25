@@ -132,4 +132,8 @@
     cursor: pointer;
   }
 
+  .mode-button:hover {
+    box-shadow: 0 20px 50px rgba(5,50,93,0.08), 0 10px 30px rgba(0,0,0,0.12);
+  }
+
 </style>

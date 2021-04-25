@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <canvas class="floor-plane card" id="floor"></canvas>
   </div>
 </template>
@@ -47,10 +47,12 @@
           '住院3': {'x': 756, 'y': 201.5},
           '住院4': {'x': 807, 'y': 235},
           '病理检验室': {'x': 860, 'y': 274},
-        }
+        },
+        loading: false,
       }
     },
     mounted() {
+      this.loading = true
       this.getDepartmentList()
       this.setHiDPICanvas(1050, 750, 4)
       this.computePosition()
@@ -162,6 +164,9 @@
                   this.departmentList[department.name].id = department.id
                 }
               }
+            })
+            .finally(() => {
+              this.loading = false
             })
       },
     }
