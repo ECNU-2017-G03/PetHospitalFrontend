@@ -16,6 +16,10 @@ Test your knowledge.
 
 3-D map for hospital.
 
+## Prerequest
+- Nodejs
+- Npm / Yarn
+
 ## Project setup
 ```
 yarn install
@@ -31,20 +35,8 @@ yarn serve
 yarn build
 ```
 
-### Run your unit tests
+### Electron Run
 ```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
+yarn electron:serve
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
